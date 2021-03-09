@@ -10,7 +10,7 @@ typedef struct Node {
 } node_t;
 
 // Initialize the default head
-node_t * init_head(note_t * head);
+void init_head(note_t * head);
 
 // Display the linked list
 void printList(node_t * head);
