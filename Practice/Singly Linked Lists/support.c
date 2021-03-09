@@ -5,7 +5,7 @@
 #include <time.h>
 
 // Initialize the default head
-node_t * init_head(note_t * head) {
+void init_head(note_t * head) {
     head -> next = NULL;
     head -> data = GARBAGE;
 }
@@ -25,10 +25,10 @@ void printList(node_t * head) {
 }
 
 // Insert value at the beginning of the list
-void insertFirst(note_t ** head, int value) {
-    if (! * head) {
-        * head = malloc(sizeof(node_t));
-        * head = init_head( * head);
+void insertFirst(note_t **head, int value) {
+    if (! *head) {
+        *head = malloc(sizeof(node_t));
+        init_head( * head);
     }
 
     note_t * start = NULL;
@@ -161,7 +161,7 @@ void smartSort(node_t * head) {
 // Test the insert and print functions
 void test_1(node_t * head) {
 	printf("Testing insertions, deletions and display\n");
-    head = init_head(head);
+    init_head(head);
     insertFirst( & head, 5);
 
     while (!isEmpty(head))
