@@ -68,7 +68,7 @@ int main(void) {
 }
 
 /*
-	Exemple: 
+	Examples: 
 	3 3
 	1 2 3
 	2 3 4
@@ -81,7 +81,7 @@ int main(void) {
 	16 17 18 19 20
 
 	~~~~~~~Valgrind~~~~~~~~~~:
-	Comanda: valgrind --leak-check=full --show-leak-kinds=all ./matrix_exec
+	Command: valgrind --leak-check=full --show-leak-kinds=all ./matrix_exec
 	Output:
 	==6112== Memcheck, a memory error detector
 	==6112== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
