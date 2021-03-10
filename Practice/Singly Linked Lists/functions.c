@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "utils.h"
-#include "support.h"
+#include "functions.h"
 #include <time.h>
 
 // Initialize the default head
