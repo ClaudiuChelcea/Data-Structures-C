@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "support.h"
+#include "functions.h"
 #include "utils.h"
 
 int main(void) {
