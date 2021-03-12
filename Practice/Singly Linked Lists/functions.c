@@ -10,6 +10,55 @@ void init_head(note_t * head) {
     head -> data = GARBAGE;
 }
 
+// Delete middle element
+void task_delete_middle(node_t ** head) {
+    if (! * head || ( * head) -> value == GARBAGE) {
+        if(!*head) {
+            fprintf(stderr, "List is empty! Exiting...\n");
+            exit(EXIT_SUCCESS);
+        }
+        else if(( * head) -> value == GARBAGE) {
+            free(*head);
+            fprintf(stderr, "List is empty! Exiting...\n");
+            exit(EXIT_SUCCESS);
+        }
+    } else if (!( * head) -> next) {
+        free(*head);
+        head = NULL;
+        printf("Deleted single element in list! Exiting...\n");
+        exit(EXIT_SUCCESS);
+    // Two elements
+    } else if ((* head)->next->next == NULL) {
+        printf("Before: ");
+        printList( * head);
+        note_t* tmp = *head;
+        * head = ( * head) -> next;
+        free(tmp);
+        printf("After:  ");
+        printList( * head);
+
+    // More elements: Tortoise & Hare
+    } else {
+        printf("Before: ");
+        printList( * head);
+        node_t * tortoise = * head;
+        node_t * prev = NULL;
+        node_t * hare = * head;
+        
+        while(tortoise && hare->next && hare->next->next)
+        {
+            prev = tortoise;
+            tortoise = tortoise->next;
+            hare = hare->next->next;
+
+        }
+        prev->next = prev->next->next;
+        free(tortoise);
+        printf("After:  ");
+        printList( * head);
+    }
+}
+
 // Display the linked list
 void printList(node_t * head) {
     if (!head || head -> data == GARBAGE) {
