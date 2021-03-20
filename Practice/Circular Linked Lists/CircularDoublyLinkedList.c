@@ -5,10 +5,7 @@
 #include "CircularDoublyLinkedList.h"
 #include "utils.h"
 
-/*
- * Functie care trebuie apelata pentru alocarea si initializarea unei liste.
- * (Setare valori initiale pentru campurile specifice structurii LinkedList).
- */
+// Allocate list
 doubly_linked_list_t*
 dll_create(unsigned int data_size)
 {
@@ -21,14 +18,7 @@ dll_create(unsigned int data_size)
     return new;
 }
 
-/*
- * Functia intoarce un pointer la nodul de pe pozitia n din lista.
- * Pozitiile din lista sunt indexate incepand cu 0 (i.e. primul nod din lista se
- * afla pe pozitia n=0). Daca n >= nr_noduri, atunci se intoarce nodul de pe
- * pozitia rezultata daca am "cicla" (posibil de mai multe ori) pe lista si am
- * trece de la ultimul nod, inapoi la primul si am continua de acolo. Cum putem
- * afla pozitia dorita fara sa simulam intreaga parcurgere? Daca n < 0, eroare.
- */
+// Return the nth node
 dll_node_t*
 dll_get_nth_node(doubly_linked_list_t* list, unsigned int n)
 {
@@ -67,15 +57,7 @@ dll_get_nth_node(doubly_linked_list_t* list, unsigned int n)
     }
 }
 
-/*
- * Pe baza datelor trimise prin pointerul new_data, se creeaza un nou nod care e
- * adaugat pe pozitia n a listei reprezentata de pointerul list. Pozitiile din
- * lista sunt indexate incepand cu 0 (i.e. primul nod din lista se afla pe
- * pozitia n=0). Cand indexam pozitiile nu "ciclam" pe lista circulara ca la
- * get, ci consideram nodurile in ordinea de la head la ultimul (adica acel nod
- * care pointeaza la head ca nod urmator in lista). Daca n >= nr_noduri, atunci
- * adaugam nodul nou la finalul listei. Daca n < 0, eroare.
- */
+// Add node to nth position
 void
 dll_add_nth_node(doubly_linked_list_t* list, unsigned int n, const void* data)
 {
@@ -122,7 +104,7 @@ dll_add_nth_node(doubly_linked_list_t* list, unsigned int n, const void* data)
         list->size++;
 
     }
-    else if(n>=list->size) { //printf("Create last item!\n");
+    else if(n>=list->size) {
         dll_node_t* new_node = NULL;
         new_node  = malloc(sizeof(dll_node_t));
         DIE(!new_node,"Couldn't add to list!\n");
@@ -142,7 +124,6 @@ dll_add_nth_node(doubly_linked_list_t* list, unsigned int n, const void* data)
         
     }
     else {
-    //    printf("Create middle item!\n");
         list->size++;
         dll_node_t* new_node_add = NULL;
         new_node_add = dll_get_nth_node(list,n);
@@ -167,17 +148,7 @@ dll_add_nth_node(doubly_linked_list_t* list, unsigned int n, const void* data)
     }
 }
 
-/*
- * Elimina nodul de pe pozitia n din lista al carei pointer este trimis ca
- * parametru. Pozitiile din lista se indexeaza de la 0 (i.e. primul nod din
- * lista se afla pe pozitia n=0). Functia intoarce un pointer spre acest nod
- * proaspat eliminat din lista. Daca n >= nr_noduri - 1, se elimina nodul de la
- * finalul listei. Daca n < 0, eroare. Este responsabilitatea apelantului sa
- * elibereze memoria acestui nod.
- */
-
-// Atentie, am schimbat tipul la void si am dat free, ca altfel programul nu ar functiona corect, ca in main nu elibereaza nimeni memoria
-// Daca as fi vrut sa dau return, pur si simplu as fi returnat nodul, in loc sa il eliberez
+// Remove the nth node
 void
 dll_remove_nth_node(doubly_linked_list_t** list, unsigned int n)
 {
@@ -283,20 +254,14 @@ dll_remove_nth_node(doubly_linked_list_t** list, unsigned int n)
 
 }
 
-/*
- * Functia intoarce numarul de noduri din lista al carei pointer este trimis ca
- * parametru.
- */
+// Return the side of the list
 unsigned int
 dll_get_size(doubly_linked_list_t* list)
 {
     return list->size;
 }
 
-/*
- * Procedura elibereaza memoria folosita de toate nodurile din lista, iar la
- * sfarsit, elibereaza memoria folosita de structura lista.
- */
+// Release the memory
 void
 dll_free(doubly_linked_list_t** pp_list)
 {
@@ -339,11 +304,7 @@ dll_free(doubly_linked_list_t** pp_list)
     }
 }
 
-/*
- * Atentie! Aceasta functie poate fi apelata doar pe liste ale caror noduri STIM
- * ca stocheaza int-uri. Functia afiseaza toate valorile int stocate in nodurile
- * din lista separate printr-un spatiu, incepand de la primul nod din lista.
- */
+// Print int list
 void
 dll_print_int_list(doubly_linked_list_t* list)
 {
@@ -367,12 +328,7 @@ dll_print_int_list(doubly_linked_list_t* list)
     printf("\n");
 }
 
-/*
- * Atentie! Aceasta functie poate fi apelata doar pe liste ale caror noduri STIM
- * ca stocheaza string-uri. Functia afiseaza toate string-urile stocate in
- * nodurile din lista separate printr-un spatiu, incepand de la primul nod din
- * lista.
- */
+// Print string list
 void
 dll_print_string_list(doubly_linked_list_t* list)
 {
@@ -396,16 +352,7 @@ dll_print_string_list(doubly_linked_list_t* list)
     printf("\n");
 }
 
-/*
- * Atentie! Aceasta functie poate fi apelata doar pe liste ale caror noduri STIM
- * ca stocheaza int-uri. Functia afiseaza o singura data toate valorile int
- * stocate in nodurile din lista, separate printr-un spatiu, incepand de la
- * nodul dat ca parametru si continuand la stanga in lista dublu inlantuita
- * circulara, pana cand sunt afisate valorile tuturor nodurilor.
- */
-
-// Atentie, nu am testat ca nu e cod in main de pe care pot sa testez
-// Cel mai probabil e corect
+// Print list by node to the left
 void
 dll_print_ints_left_circular(dll_node_t* start)
 {
@@ -424,16 +371,7 @@ dll_print_ints_left_circular(dll_node_t* start)
     printf("\n");
 }
 
-/*
- * Atentie! Aceasta functie poate fi apelata doar pe liste ale caror noduri STIM
- * ca stocheaza int-uri. Functia afiseaza o singura data toate valorile int
- * stocate in nodurile din lista, separate printr-un spatiu, incepand de la
- * nodul dat ca parametru si continuand la dreapta in lista dublu inlantuita
- * circulara, pana cand sunt afisate valorile tuturor nodurilor.
- */
-
-// Atentie, nu am testat ca nu e cod in main de pe care pot sa testez
-// Cel mai probabil e corect
+// Print list by node to the right
 void
 dll_print_ints_right_circular(dll_node_t* start)
 {
