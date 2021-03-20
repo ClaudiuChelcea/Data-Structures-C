@@ -17,7 +17,6 @@ list_t* init_list(int data_size)
 // Print the list
 void printList(list_t* list)
 {
-	
 	if(!list || !list->next) {
 		fprintf(stderr,"No list to print!\n");
 		return;
@@ -25,6 +24,10 @@ void printList(list_t* list)
 
 	node_t* head = NULL;
 	head = list->next;
+	if(!head) {
+		fprintf(stderr,"No head for printing!\n");
+		return;
+	}
 
 	while(head) {
 		if(list->data_size == sizeof(int)) {
@@ -43,43 +46,44 @@ void printList(list_t* list)
 }
 
 // Add first element
-void addFirst(list_t* list, int value)
+void addFirst(list_t** list, int value)
 {
-	if(!list) {
-		
-		list = init_list(sizeof(int));
+	if(!(*list)) {
+		(*list) = init_list(sizeof(int));
+		DIE(!(*list),"Error! Couldn't initialise list!\n");
 		node_t* new_node = NULL;
 		new_node = malloc(sizeof(node_t));
 		DIE(!new_node,"Couldn't create first element in list!");
-		new_node->data = malloc(sizeof(list->data_size));
+		new_node->data = malloc(sizeof((*list)->data_size));
 		*((int*)new_node->data) = value;
 		new_node->prev = NULL;
 		new_node->next = NULL;
-		list->size++;
-
+		(*list)->next = new_node;
+		(*list)->size++;
 	}
-	else if(!list->next) {
+
+	else if(!(*list)->next) {
 		node_t* new_node = NULL;
 		new_node = malloc(sizeof(node_t));
 		DIE(!new_node,"Couldn't create first element in list!");
-		new_node->data = malloc(sizeof(list->data_size));
+		new_node->data = malloc(sizeof((*list)->data_size));
 		*((int*)new_node->data) = value;
 		new_node->prev = NULL;
 		new_node->next = NULL;
-		list->next = new_node;
-		list->size++;
+		(*list)->next = new_node;
+		(*list)->size++;
 	}
 	else {
 		node_t* new_node = NULL;
 		new_node = malloc(sizeof(node_t));
 		DIE(!new_node,"Couldn't create first element in list!");
-		new_node->data = malloc(sizeof(list->data_size));
+		new_node->data = malloc(sizeof((*list)->data_size));
 		*((int*)new_node->data) = value;
 		new_node->prev = NULL;
-		new_node->next = list->next;
-		list->next->prev = new_node;
-		list->next = new_node;
-		list->size++;
+		new_node->next = (*list)->next;
+		(*list)->next->prev = new_node;
+		(*list)->next = new_node;
+		(*list)->size++;
 	}
 }
 
@@ -217,7 +221,7 @@ list_t* sum_list(list_t* list1, list_t* list2)
 	DIE(!l2_node,"Couldn't execute sum!\n");
 	int i = 0;
 	while(l1_node && l2_node) {
-		addFirst(sum_pointer,*((int*)l1_node->data) + *((int*)l2_node->data));
+		addFirst(&sum_pointer,*((int*)l1_node->data) + *((int*)l2_node->data));
 		if(i==0) {
 			copy = sum_pointer->next;
 			DIE(!copy," Couldn't execute sum!\n");
@@ -231,12 +235,12 @@ list_t* sum_list(list_t* list1, list_t* list2)
 	}
 
 	while(l1_node->next) {
-		addFirst(sum_pointer,*((int*)l1_node->next->data));
+		addFirst(&sum_pointer,*((int*)l1_node->next->data));
 		l1_node = l1_node ->next;
 		
 	}
 	while(l2_node->next) {
-		addFirst(sum_pointer,*((int*)l2_node->next->data));
+		addFirst(&sum_pointer,*((int*)l2_node->next->data));
 		l2_node = l2_node ->next;
 	}
 
@@ -255,10 +259,175 @@ list_t* sum_list(list_t* list1, list_t* list2)
 
 	if(memory_add!=0) {
 		reverseList(sum_pointer);
-		addFirst(sum_pointer,memory_add);
+		addFirst(&sum_pointer,memory_add);
 		memory_add = 0;
 		reverseList(sum_pointer);
 	}
 
 	return sum_pointer;
+}
+
+// Merge two sorted lists
+list_t* make_merge(list_t* list1, list_t* list2)
+{
+	if(!list1 || !list2) {
+		printf("Couldn't receive the lists for the sum!\n");
+		return NULL;
+	}
+	
+	list_t* merged_list = NULL;
+	merged_list = init_list(list1->data_size);
+	DIE(!merged_list,"Couldn't execute sum!\n");
+	node_t* l1_node = NULL;
+	node_t* l2_node = NULL;
+	l1_node = list1->next;
+	l2_node = list2->next;
+	DIE(!l1_node,"Couldn't execute sum!\n");
+	DIE(!l2_node,"Couldn't execute sum!\n");
+
+	while(l1_node && l2_node) {
+		if(*((int*)l1_node->data) < *((int*)l2_node->data)) {
+			addFirst(&merged_list,*((int*)l1_node->data));
+			if(l1_node->next)
+				l1_node = l1_node->next;
+			else
+				l1_node = NULL;
+		}
+			
+		else if(*((int*)l1_node->data) >= *((int*)l2_node->data)) {
+			addFirst(&merged_list,*((int*)l2_node->data));
+			if(l2_node->next)
+				l2_node = l2_node->next;
+			else
+				l2_node = NULL;
+		}
+	}
+
+	while(l1_node) {
+		addFirst(&merged_list,*((int*)l1_node->data));
+		if(l1_node->next)
+				l1_node = l1_node->next;
+			else
+				break;
+	}
+	while(l2_node) {
+		addFirst(&merged_list,*((int*)l2_node->data));
+		if(l2_node->next)
+				l2_node = l2_node->next;
+			else
+				break;
+			printf("Added from 2\n");
+	}
+	reverseList(merged_list);
+	return merged_list;
+}	
+
+// Remove last item
+void removeLastItem(list_t** list1)
+{
+	if(!*list1 || !(*list1)->next) {
+		fprintf(stderr,"Couldn't remove last item! List is empty!\n");
+		return;
+	}
+	else if(!(*list1)->next->next) {
+		free((*list1)->next->data);
+		(*list1)->next->next = NULL;
+		(*list1)->next->prev = NULL;
+		free((*list1)->next);
+		free((*list1));
+		*list1 = NULL;
+	}
+	else {
+		node_t* start = NULL;
+		start = (*list1)->next;
+		DIE(!start,"Couldn't execute remove!\n");
+		while(start->next->next)
+			start = start->next;
+		free(start->next->data);
+		start->next->prev = NULL;
+		free(start->next);
+		start->next = NULL;
+	}
+}
+
+// Check if the number formed is a palindrome
+void isPalindrome(list_t* list)
+{
+	if(!list || !list->next) {
+		fprintf(stderr,"Can't verify a palindrome if the list is empty!\n");
+		return;
+	}
+	else if(!list->next->next) {
+		printf("The lists forms a palindrome\n");
+		return;
+	}
+	else {
+		node_t* start = NULL;
+		start = list->next;
+		DIE(!start,"Couldn't verify if the list is a palindrome!\n");
+		node_t* second_start = NULL;
+		second_start = list->next;
+		DIE(!second_start,"Couldn't verify if the list is a palindrome!\n");
+
+		while(start->next) {
+			start = start->next;
+		}
+		int palindrome = 1;
+		while(second_start->next) {
+			if(*((int*)second_start->data) != *((int*)start->data)) {
+				palindrome = 0;
+				break;
+			}
+			second_start = second_start->next;
+			start = start->prev;
+		}
+		if(palindrome)
+			printf("List forms a palindrome!\n");
+		else
+			printf("List doesn't form a palindrome!\n");
+	}
+}
+
+// Release the whole list
+void makeClean(list_t** list)
+{
+	if(!*list) {
+		fprintf(stderr,"List is already empty!\n");
+		return;
+	}
+	else if(!(*list)->next) {
+		free(*list);
+	}
+	else if(!(*list)->next->next) {
+		free((*list)->next->data);
+		(*list)->next->next = NULL;
+		(*list)->next->prev = NULL;
+		free((*list)->next);
+		free((*list));
+	}
+	else {
+		node_t* current = NULL;
+		node_t* prev = NULL;
+		current = (*list)->next;
+		DIE(!current,"Couldn't clean the memory!\n");
+		while(current->next) {
+			prev = current;
+			current = current->next;
+			free(prev->data);
+			prev->next = NULL;
+			prev->prev = NULL;
+			free(prev);
+			prev = NULL;
+			
+		}
+		free(current->data);
+		current->prev = NULL;
+		current->next = NULL;
+		free(current);
+		current = NULL;
+		(*list)->next = NULL;
+		free((*list));
+		*list = NULL;
+	}
+	printf("Cleaned list!\n");
 }
