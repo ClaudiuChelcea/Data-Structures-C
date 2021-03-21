@@ -12,12 +12,12 @@ void init_head(note_t * head) {
 
 // Delete middle element
 void task_delete_middle(node_t ** head) {
-    if (! * head || ( * head) -> value == GARBAGE) {
+    if (! * head || ( * head) -> data == GARBAGE) {
         if(!*head) {
             fprintf(stderr, "List is empty! Exiting...\n");
             exit(EXIT_SUCCESS);
         }
-        else if(( * head) -> value == GARBAGE) {
+        else if(( * head) -> data == GARBAGE) {
             free(*head);
             fprintf(stderr, "List is empty! Exiting...\n");
             exit(EXIT_SUCCESS);
@@ -228,8 +228,8 @@ void test_2(note_t * head) {
 	printf("Testing insertions, random values and list sort\n");
     insertFirst( & head, 5);
     srand(time(0));
-    for (int i = 0; i < 1000; i++) {
-        int x = rand() % 500;
+    for (int i = 0; i < 50; i++) {
+        int x = rand() % 4;
         insertFirst( & head, x);
     }
     smartSort(head);
