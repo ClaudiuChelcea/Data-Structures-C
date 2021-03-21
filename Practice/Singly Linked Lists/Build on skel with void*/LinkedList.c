@@ -3,6 +3,7 @@
 #include <string.h>
 #include "LinkedList.h"
 
+// Create list
 linked_list_t * ll_create(unsigned int data_size) {
     linked_list_t * my_list = NULL;
     my_list = malloc(sizeof(linked_list_t));
@@ -16,13 +17,7 @@ linked_list_t * ll_create(unsigned int data_size) {
     my_list -> size = 0;
 }
 
-/*
- * Pe baza datelor trimise prin pointerul new_data, se creeaza un nou nod care e
- * adaugat pe pozitia n a listei reprezentata de pointerul list. Pozitiile din
- * lista sunt indexate incepand cu 0 (i.e. primul nod din lista se afla pe
- * pozitia n=0). Daca n >= nr_noduri, noul nod se adauga la finalul listei. Daca
- * n < 0, eroare.
- */
+// Add nth node
 void ll_add_nth_node(linked_list_t * list, unsigned int n,
     const void * new_data) {
     if (!list) {
@@ -113,20 +108,7 @@ void ll_add_nth_node(linked_list_t * list, unsigned int n,
     }
 }
 
-/*
- * Elimina nodul de pe pozitia n din lista al carei pointer este trimis ca
- * parametru. Pozitiile din lista se indexeaza de la 0 (i.e. primul nod din
- * lista se afla pe pozitia n=0). Daca n >= nr_noduri - 1, se elimina nodul de
- * la finalul listei. Daca n < 0, eroare. Functia intoarce un pointer spre acest
- * nod proaspat eliminat din lista. Este responsabilitatea apelantului sa
- * elibereze memoria acestui nod.
- */
-
-// !!!! Atentie. Nu l-am mai returnat, pentru ca in main e apelata functia, nu se salveaza nimic
-// deci nu ar avea sens. Pentru ruturn pur si simplu as avea de returnat nodul creat de mine de sters
-// De exemplu, mai jos creez un nod la pozitia dorita, apoi mut lista cu un element, apoi eliberez nodul
-// Singura modificare care trebuie adusa e sa nu eliberez nodul, ci sa il returnez, dar asa iau erori de la valgrind
-// asa ca ii dau free. Sper ca nu e o problema.
+// Remove nth node
 ll_node_t * ll_remove_nth_node(linked_list_t * list, unsigned int n) {
     if (!list) {
         return (ll_node_t * ) NULL;
@@ -184,20 +166,12 @@ ll_node_t * ll_remove_nth_node(linked_list_t * list, unsigned int n) {
     }
 }
 
-/*
- * Functia intoarce numarul de noduri din lista al carei pointer este trimis ca
- * parametru.
- */
+// Return the size of the list
 unsigned int ll_get_size(linked_list_t * list) {
     return list -> size;
 }
 
-/*
- * Procedura elibereaza memoria folosita de toate nodurile din lista, iar la
- * sfarsit, elibereaza memoria folosita de structura lista si actualizeaza la
- * NULL valoarea pointerului la care pointeaza argumentul (argumentul este un
- * pointer la un pointer).
- */
+// Release the list
 void ll_free(linked_list_t ** pp_list) {
     if (!( * pp_list) -> head) {
         free( * pp_list);
@@ -219,11 +193,7 @@ void ll_free(linked_list_t ** pp_list) {
     free( * pp_list);
 }
 
-/*
- * Atentie! Aceasta functie poate fi apelata doar pe liste ale caror noduri STIM
- * ca stocheaza int-uri. Functia afiseaza toate valorile int stocate in nodurile
- * din lista inlantuita separate printr-un spatiu.
- */
+// Display the list as int
 void ll_print_int(linked_list_t * list) {
     if (!list || !list -> head) {
         fprintf(stderr, "Couldn't display list!\n");
@@ -239,11 +209,7 @@ void ll_print_int(linked_list_t * list) {
     printf("\n");
 }
 
-/*
- * Atentie! Aceasta functie poate fi apelata doar pe liste ale caror noduri STIM
- * ca stocheaza string-uri. Functia afiseaza toate string-urile stocate in
- * nodurile din lista inlantuita, separate printr-un spatiu.
- */
+// Display the list as string
 void ll_print_string(linked_list_t * list) {
     if (!list || !list -> head) {
         fprintf(stderr, "Couldn't display list!\n");
