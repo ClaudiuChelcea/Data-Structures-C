@@ -14,11 +14,6 @@ struct LinkedList {
 
 void init_list(struct LinkedList * list);
 
-/*
- * Acestea sunt functiile pe care trebuie sa le implementam.
- * Implementarea acestora se va face in LinkedList.c .
- */
-
 void add_nth_node(struct LinkedList ** list, int n, void * new_data);
 
 struct Node * remove_nth_node(struct LinkedList ** list, int n);
@@ -31,4 +26,4 @@ void print_int_linkedlist(struct LinkedList * list);
 
 void print_string_linkedlist(struct LinkedList * list);
 
-#endif /* __LINKEDLIST_H__ */
+#endif
