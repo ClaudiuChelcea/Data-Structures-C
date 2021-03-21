@@ -3,10 +3,7 @@
 #include "LinkedList.h"
 #include <ctype.h>
 
-/*
- * Functie care trebuie apelata dupa alocarea unei liste simplu inlantuite, pentru a o initializa.
- * (Setare valori initiale pentru campurile specifice structurii LinkedList).
- */
+// Initialise list
 void init_list(struct LinkedList * list) {
     if (!list) {
         fprintf(stderr, "Couldn't initialise list!\n");
@@ -23,6 +20,7 @@ void init_list(struct LinkedList * list) {
     }
 }
 
+// Initialise node
 void init_list_node(struct Node * list) {
     if (!list) {
         fprintf(stderr, "Couldn't initialise list!\n");
@@ -39,6 +37,7 @@ void init_list_node(struct Node * list) {
     }
 }
 
+// Add first element
 void addFirst(struct LinkedList ** head, int new_data) {
     if (!head) {
         fprintf(stderr, "Couldn't insert first element!\n");
@@ -52,6 +51,7 @@ void addFirst(struct LinkedList ** head, int new_data) {
     * head = new;
 }
 
+// Add last element
 void addLast(struct LinkedList * head, int new_data) {
     if (!head) {
         fprintf(stderr, "Couldn't insert last element!\n");
@@ -69,11 +69,8 @@ void addLast(struct LinkedList * head, int new_data) {
     head -> next -> next = NULL;
 
 }
-/*
- * Pe baza datelor trimise prin pointerul new_data, se creeaza un nou nod care e adaugat pe pozitia n a listei
- * reprezentata de pointerul list. Pozitiile din lista sunt indexate incepand cu 0 (i.e. primul nod din lista se afla
- * pe pozitia n=0). Daca n >= nr_noduri, noul nod se adauga la finalul listei. Daca n < 0, eroare.
- */
+
+// Add node to nth position
 void add_nth_node(struct LinkedList ** list, int n, void * new_data)
 {
     // !list
@@ -119,13 +116,7 @@ void add_nth_node(struct LinkedList ** list, int n, void * new_data)
 
 }
 
-/*
- * Elimina nodul de pe pozitia n din lista al carei pointer este trimis ca parametru.
- * Pozitiile din lista se indexeaza de la 0 (i.e. primul nod din lista se afla pe pozitia n=0). Daca n >= nr_noduri - 1,
- * se elimina nodul de la finalul listei. Daca n < 0, eroare.
- * Functia intoarce un pointer spre acest nod proaspat eliminat din lista.
- * Este responsabilitatea apelantului sa elibereze memoria acestui nod.
- */
+// Remove node nth
 struct Node * remove_nth_node(struct LinkedList ** head, int n) {
     if (! * head) {
         struct Node * my_new_node = malloc(sizeof(struct Node));
@@ -202,20 +193,14 @@ struct Node * remove_nth_node(struct LinkedList ** head, int n) {
     }
 }
 
-/*
- * Functia intoarce numarul de noduri din lista al carei pointer este trimis ca parametru.
- */
+// Get the size of the list
 int get_size(struct LinkedList * list) {
     if (!list)
         return 0;
     return 1 + get_size(list -> next);
 }
 
-/*
- * Procedura elibereaza memoria folosita de toate nodurile din lista, iar la sfarsit, elibereaza memoria folosita
- * de structura lista si actualizeaza la NULL valoarea pointerului la care pointeaza argumentul (argumentul este un
- * pointer la un pointer).
- */
+// Release the list
 void free_list(struct LinkedList ** pp_list) {
 
     struct LinkedList * tmp;
@@ -229,10 +214,7 @@ void free_list(struct LinkedList ** pp_list) {
 
 }
 
-/*
- * Atentie! Aceasta functie poate fi apelata doar pe liste ale caror noduri STIM ca stocheaza int-uri.
- * Functia afiseaza toate valorile int stocate in nodurile din lista inlantuita separate printr-un spatiu.
- */
+// Print the list as int
 void print_int_linkedlist(struct LinkedList * list) {
 
     if (!list || * ((int * ) list -> data) == GARBAGE) {
@@ -246,10 +228,7 @@ void print_int_linkedlist(struct LinkedList * list) {
     printf("\n");
 }
 
-/*
- * Atentie! Aceasta functie poate fi apelata doar pe liste ale caror noduri STIM ca stocheaza string-uri.
- * Functia afiseaza toate string-urile stocate in nodurile din lista inlantuita, separate printr-un spatiu.
- */
+// Print the list as string
 void print_string_linkedlist(struct LinkedList * list) {
     if (!list || * ((int * ) list -> data) == GARBAGE) {
         fprintf(stderr, "Couldn't display list!\n");
