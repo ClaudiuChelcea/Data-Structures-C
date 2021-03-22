@@ -75,7 +75,7 @@ dll_add_nth_node(doubly_linked_list_t* list, unsigned int n, const void* data)
         new_node  = malloc(sizeof(dll_node_t));
         new_node->next = new_node;
         new_node->prev = new_node;
-        new_node->data = malloc(list->data_size));
+        new_node->data = malloc(list->data_size);
         if(sizeof(int) == list->data_size)
             *((int*)new_node->data) = *((int*)data);
         else
