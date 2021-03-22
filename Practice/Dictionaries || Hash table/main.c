@@ -3,13 +3,14 @@
 #include <string.h>
 #include "functions.h"
 
-int main(void) {
+int main(void)
+{
     // Create three persons
     person_t Alex = {
         .name = "Alex",
         .age = 28,
-        .next = NULL
     };
+        .next = NULL
     person_t Claudiu = {
         .name = "Claudiu",
         .age = 19,
@@ -35,14 +36,14 @@ int main(void) {
     print_hash_table(hash_table);
 
     // Get one person by name
-    printf("Get a person by name:\n");
+    printf("Get a person by name: Alexa\n");
     person_t * copy_person = hash_table_find("Alexa", hash_table);
     if (copy_person)
         printPerson(copy_person);
     else
         printf("Person is not in list!\n");
 
-    // Remove a person
+    // Remove the table and add a new person
     print_hash_table(hash_table);
     printf("Remove everything && add new person:\n");
     deletePerson("Claudiu", hash_table);
@@ -56,9 +57,8 @@ int main(void) {
     print_hash_table(hash_table);
     printf("Table after inserting people with linear probing:\n");
     insert_person( & Maria, hash_table);
-    insert_person( & Maria, hash_table);
-    insert_person( & Claudiu, hash_table);
     insert_person( & Alex, hash_table);
+	insert_person( & Alex, hash_table);
     print_hash_table(hash_table);
 
     // Delete all persons with a certain name
@@ -70,6 +70,6 @@ int main(void) {
     printf("Delete the whole list:\n");
     delete_hash_table(hash_table);
     print_hash_table(hash_table);
-
+	  
     return 0;
 }
