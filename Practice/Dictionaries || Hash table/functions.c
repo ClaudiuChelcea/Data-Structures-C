@@ -38,8 +38,17 @@ void print_hash_table(person_t * hash_table[]) {
     for (int i = 0; i < TABLE_SIZE; i++) {
         if (hash_table[i] == NULL)
             printf("~~~~~~\n");
-        else
-            printf("%s is %d old!\n", hash_table[i] -> name, hash_table[i] -> age);
+        else {
+			person_t* tmp = hash_table[i];
+			while(tmp) {
+				if(tmp->next)	
+					printf("%s : %d --- ",tmp->name, tmp-> age);
+				else	
+					printf("%s : %d",tmp->name, tmp-> age);
+				tmp = tmp->next;
+			}
+			printf("\n");
+		}
     }
     printf("Hash table end.\n\n");
 }
@@ -55,13 +64,25 @@ void insert_person(person_t * person, person_t * hash_table[]) {
         exit(EXIT_FAILURE);
     }
 
+	// Get the index for the name
     int index = hash(person -> name);
+
+	// If the position is empty, fill it
     if (hash_table[index] == NULL) {
         hash_table[index] = person;
 	}
+	// Else, add it as the head of the position
 	else {
-		person->next = hash_table[index];
-		hash_table[index]->next = person;
+		printf("Added as head\n");
+		person_t* new = NULL;
+		new = malloc(sizeof(person_t));
+		if(!new) {
+			fprintf(stderr,"Couldn't add item as head!\n");
+		}
+		strncpy(new->name,person->name, NAME_SIZE);
+		new->age = person->age;
+		new->next = hash_table[index];
+		hash_table[index] = new;
 	}
 }
 
@@ -160,7 +181,6 @@ int deletePerson(const char * name, person_t * hash_table[]) {
 			prev = NULL;
 			tmp = NULL;
 		}
-		
 	}
 	
 	return 1;
@@ -178,3 +198,4 @@ void delete_hash_table(person_t * hash_table[])
 		hash_table[i] = NULL;
 	}
 }
+
