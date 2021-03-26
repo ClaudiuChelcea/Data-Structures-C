@@ -1,10 +1,9 @@
 #ifndef __LIB_H__
 #define __LIB_H__
 #define HASH_SIZE 5
-#define NAME 100#include <stdio.h>
-
+#define NAME 100
+#include <stdio.h>
 #include <stdlib.h>
-
 #include <string.h>
 
 typedef enum bool {
