@@ -1,0 +1,54 @@
+13
+Brave New World
+Aldous Huxley
+2000
+0
+Animal Farm
+George Orwell
+1969
+1
+The Catcher in the Rye
+J.D. Salinger
+1981
+1
+I, Robot
+Isaac Asimov
+1943
+1
+Lord of the flies
+William Golding
+2003
+0
+The great mistery
+Isaac Asimov
+1964
+0
+Unlimited Power
+Tonny Robbins
+2008
+0
+Unleash the giant within
+Tonny Robbins
+2013
+1
+Lasa vrajeaza
+Paul Melinte
+2018
+1
+Principiile Succesului
+Jack Canfield
+2014
+0
+Cracking The Code Interview
+Unknown author
+2017
+1
+4 hour work-week
+Tim Ferris
+2014
+0
+Tools of titans
+Tim Ferris
+2013
+1
+Isaac Asimov
