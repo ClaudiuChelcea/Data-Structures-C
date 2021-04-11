@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "linkedlist.h"
+#include "LinkedList.h"
 
 // Create list
 linked_list_t * ll_create( int data_size) {
