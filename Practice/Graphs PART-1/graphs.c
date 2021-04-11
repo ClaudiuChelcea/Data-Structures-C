@@ -44,6 +44,50 @@ list_graph_t* list_graph_create(int nr_vertices)
 }
 
 /*
+ *    OPERATIONS ON GRAPHS
+ */
+
+// Add edge to matrix
+void add_edge_mg(matrix_graph_t* my_matrix_graph, int graph_node1, int graph_node2)
+{
+	if(!my_matrix_graph)
+		return;
+	my_matrix_graph->edges[graph_node1][graph_node2] = 1;
+	my_matrix_graph->edges[graph_node2][graph_node1] = 1;
+}
+
+// Check if we have edge
+int has_edge_me(matrix_graph_t* my_matrix_graph, int node_to_check1, int node_to_check2)
+{
+	if(!my_matrix_graph)
+		return 0;
+	if(my_matrix_graph->edges[node_to_check1][node_to_check2] == 1)
+		return 1;
+	return 0;	
+}
+
+// Remove edge to matrix
+void remove_edge_mg(matrix_graph_t* my_matrix_graph, int graph_node1, int graph_node2)
+{
+	if(!my_matrix_graph)
+		return;
+	my_matrix_graph->edges[graph_node1][graph_node2] = 0;
+	my_matrix_graph->edges[graph_node2][graph_node1] = 0;
+}
+
+// DIsplay the graph in adjacent matrix form
+void print_mg(matrix_graph_t* my_matrix_graph)
+{
+	if(!my_matrix_graph)
+		return;
+	for(int i=0;i<my_matrix_graph->vertices_number;i++) {
+		for(int j=0;j<my_matrix_graph->vertices_number;j++)
+			printf("%d ",my_matrix_graph->edges[i][j]);
+		printf("\n");	
+	}
+}
+
+/*
  *   RELEASING
  */ 
 
@@ -87,3 +131,4 @@ void release_lg(list_graph_t* my_list_graph)
 	free(my_list_graph);
 	my_list_graph = NULL;
 }
+

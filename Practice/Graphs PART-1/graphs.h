@@ -34,8 +34,20 @@ typedef struct
 // Create matrix graph
 matrix_graph_t* matrix_graph_create(int nr_vertices);
 
+// Add edge to matrix
+void add_edge_mg(matrix_graph_t* my_matrix_graph, int graph_node1, int graph_node2);
+
+// Check if we have edge
+int has_edge_me(matrix_graph_t* my_matrix_graph, int node_to_check1, int node_to_check2);
+
+// Remove edge to matrix
+void remove_edge_mg(matrix_graph_t* my_matrix_graph, int graph_node1, int graph_node2);
+
 // Release the memory for the matrix graph
 void release_mg(matrix_graph_t* my_matrix_graph);
+
+// DIsplay the graph in adjacent matrix form
+void print_mg(matrix_graph_t* my_matrix_graph);
 
 /*
  *    LIST GRAPH
