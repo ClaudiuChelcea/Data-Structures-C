@@ -10,19 +10,18 @@ struct ll_node_t {
 typedef struct linked_list_t linked_list_t;
 struct linked_list_t {
     ll_node_t * head;
-    unsigned int data_size;
-    unsigned int size;
+    int data_size;
+    int size;
 };
 
-linked_list_t *
-    ll_create(unsigned int data_size);
+linked_list_t * ll_create( int data_size);
 
 void
-ll_add_nth_node(linked_list_t * list, unsigned int n, const void * data);
+ll_add_nth_node(linked_list_t * list,  int n, const void * data);
 
-ll_node_t * ll_remove_nth_node(linked_list_t * list, unsigned int n);
+ll_node_t * ll_remove_nth_node(linked_list_t * list,  int n);
 
-unsigned int
+ int
 ll_get_size(linked_list_t * list);
 
 void
