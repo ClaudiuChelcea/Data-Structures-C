@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "LinkedList.h"
+#include "linkedlist.h"
 
 // Create list
-linked_list_t * ll_create(unsigned int data_size) {
+linked_list_t * ll_create( int data_size) {
     linked_list_t * my_list = NULL;
     my_list = malloc(sizeof(linked_list_t));
     if (!my_list) {
@@ -15,10 +15,11 @@ linked_list_t * ll_create(unsigned int data_size) {
     my_list -> data_size = 0;
     my_list -> data_size = data_size;
     my_list -> size = 0;
+    return my_list;
 }
 
 // Add nth node
-void ll_add_nth_node(linked_list_t * list, unsigned int n,
+void ll_add_nth_node(linked_list_t * list,  int n,
     const void * new_data) {
     if (!list) {
         fprintf(stderr, "List doesn't exist! Exiting...\n");
@@ -109,7 +110,7 @@ void ll_add_nth_node(linked_list_t * list, unsigned int n,
 }
 
 // Remove nth node
-ll_node_t * ll_remove_nth_node(linked_list_t * list, unsigned int n) {
+ll_node_t * ll_remove_nth_node(linked_list_t * list,  int n) {
     if (!list) {
         return (ll_node_t * ) NULL;
 
@@ -164,10 +165,11 @@ ll_node_t * ll_remove_nth_node(linked_list_t * list, unsigned int n) {
         free(my_node);
         return (ll_node_t * ) NULL;
     }
+    return NULL;
 }
 
 // Return the size of the list
-unsigned int ll_get_size(linked_list_t * list) {
+ int ll_get_size(linked_list_t * list) {
     return list -> size;
 }
 
