@@ -59,7 +59,7 @@ void add_edge_mg(matrix_graph_t* my_matrix_graph, int graph_node1, int graph_nod
 }
 
 // Check if we have edge
-int has_edge_me(matrix_graph_t* my_matrix_graph, int node_to_check1, int node_to_check2)
+int has_edge_mg(matrix_graph_t* my_matrix_graph, int node_to_check1, int node_to_check2)
 {
 	if(!my_matrix_graph)
 		return 0;
@@ -146,6 +146,88 @@ void bfs_mg(matrix_graph_t* my_matrix_graph, int node, int* color, int *parent)
 	printf("Parent list:\n");
 	for(int i=0;i<VERTICES_NR;i++)
 		printf("%d ",parent[i]);
+	
+	q_free(my_queue);
+}
+
+// Display list graph in BFS order
+void BFS_lg(list_graph_t* my_list_graph, int node)
+{
+	if(!my_list_graph)
+		return;
+
+	int color[VERTICES_NR];
+	for(int i=0;i<VERTICES_NR;i++)
+		color[i] = WHITE;
+
+	queue_t* myqueue = q_create(sizeof(int),VERTICES_NR);
+	q_enqueue(myqueue, &node);
+	color[node] = GRAY;
+
+	while(!q_is_empty(myqueue)) {
+		int val = *((int*)(q_front(myqueue)));
+		q_dequeue(myqueue);
+
+		linked_list_t* my_list = get_neighbors(my_list_graph, val);
+		Node_t* my_node = my_list->head;
+		for(int i=0;i<my_list->size;i++) {
+			int data = *((int*)(my_node->data));
+			if(color[data] == WHITE) {
+				color[data] = GRAY;
+				q_enqueue(myqueue, &data);
+			}
+			my_node = my_node->next;
+
+		}
+	color[val] = BLACK;
+	printf("Node %d.\n",val);
+	ll_free(&my_list);	
+	}	
+	q_free(myqueue);
+}
+
+// Display list graph in DFS order
+void DFS_lg(list_graph_t* my_list_graph, int node)
+{
+	if(!my_list_graph)
+		return;
+
+	int color[VERTICES_NR];
+	for(int i=0;i<VERTICES_NR;i++)
+		color[i] = WHITE;
+
+	stack_t* my_stack = st_create(sizeof(int));
+	st_push(my_stack, &node);
+	color[node] = GRAY;
+	printf("Node %d.\n", node);
+
+	while(my_stack->list && !st_is_empty(my_stack)) {
+		int val = *((int*)st_peek(my_stack));
+		st_pop(my_stack);
+
+		int found = -1;
+		linked_list_t* my_list = get_neighbors(my_list_graph, val);
+		Node_t* new = my_list->head;
+		for(int i=0;i<my_list->size; i++) {
+			if(color[*((int*)new->data)] == WHITE)  {
+				found = *((int*)new->data);
+				break;
+			}
+			new = new->next;
+		}
+
+		if(found != -1)  {
+			st_push(my_stack, &found);
+			printf("Node %d.\n",found);
+			color[found] = GRAY;
+		}
+		else {
+			st_pop(my_stack);
+		}
+		color[val] = BLACK;
+		ll_free(&my_list);
+	}
+	free(my_stack);
 }
 
 // Visit a node
@@ -200,7 +282,7 @@ void dfs_mg(matrix_graph_t* my_matrix_graph, int node, int* t_desc, int* t_fin)
 			t_fin[search_item] = ++time_count;
 		}
 	}
-
+	st_free(my_stack);
 }
 
 // Calculate shortest routes with floyd_warshall algorthm
@@ -235,6 +317,96 @@ void floyd_warshall(matrix_graph_t* my_matrix_graph)
 		}
 		printf("\n");
 	}
+}
+
+// Add edge to list graph
+void add_edge_lg(list_graph_t* my_list_graph, int vertix1, int vertix2)
+{
+	if(!my_list_graph)
+		return;
+	ll_add_nth_node(my_list_graph->neighbors[vertix1], my_list_graph->neighbors[vertix1]->size, &vertix2);
+	ll_add_nth_node(my_list_graph->neighbors[vertix2], my_list_graph->neighbors[vertix2]->size, &vertix1);
+}
+
+// Add edge to list graph
+int has_edge_lg(list_graph_t* my_list_graph, int vertix1, int vertix2)
+{
+	if(!my_list_graph)
+		return 0;
+	Node_t* new = my_list_graph->neighbors[vertix1]->head;
+	for(int i=0;i<my_list_graph->neighbors[vertix1]->size;i++) {
+		if(*((int*)new->data) == vertix2)
+			return 1;
+		new = new->next;
+	}
+	return 0;
+}
+
+// Print adjacent list
+void print_lg(list_graph_t* my_list_graph)
+{
+	if(!my_list_graph)
+		return;
+	
+	for(int i=0;i<VERTICES_NR;i++) {
+		printf("%d: ",i);
+		Node_t* new = my_list_graph->neighbors[i]->head;
+		if(new) {
+			for(int j=0;j<my_list_graph->neighbors[i]->size;j++) {
+				if(j < my_list_graph->neighbors[i]->size-1)
+					printf("%d -> ",*((int*)new->data));
+				else
+					printf("%d",*((int*)new->data));
+				new = new->next;
+				}
+		}
+		printf("\n");
+	}
+}
+
+
+// Remove edge
+void remove_edge_lg(list_graph_t* my_list_graph, int edge1, int edge2)
+{
+	if(!my_list_graph)
+		return;
+
+	Node_t* new_node = my_list_graph->neighbors[edge1]->head;
+	for(int i=0;i<my_list_graph->neighbors[edge1]->size;i++) {
+		if(*((int*)new_node->data) == edge2) {
+			ll_remove_nth_node(my_list_graph->neighbors[edge1],i);
+			break;
+		}
+		new_node = new_node->next;
+	}
+
+	new_node = my_list_graph->neighbors[edge2]->head;
+	for(int i=0;i<my_list_graph->neighbors[edge2]->size;i++) {
+		if(*((int*)new_node->data) == edge1) {
+			ll_remove_nth_node(my_list_graph->neighbors[edge2],i);
+			break;
+		}
+		new_node = new_node->next;
+	}
+}
+
+// Get list's neighbors
+linked_list_t* get_neighbors(list_graph_t* my_list_graph, int node)
+{
+	if(!my_list_graph)
+		return NULL;
+	linked_list_t* new_list = ll_create(sizeof(int));
+	Node_t* new_node = my_list_graph->neighbors[node]->head;
+	if(!new_node) {
+		return NULL;
+	}
+
+	for(int i=0;i<my_list_graph->neighbors[node]->size;i++) {
+		ll_add_nth_node(new_list, new_list->size, new_node->data);
+		new_node = new_node->next;
+	}
+
+	return new_list;
 }
 
 /*

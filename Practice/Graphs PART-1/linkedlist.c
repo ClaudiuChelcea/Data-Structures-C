@@ -12,7 +12,6 @@ linked_list_t * ll_create( int data_size) {
         exit(EXIT_FAILURE);
     }
     my_list -> head = NULL;
-    my_list -> data_size = 0;
     my_list -> data_size = data_size;
     my_list -> size = 0;
     return my_list;
