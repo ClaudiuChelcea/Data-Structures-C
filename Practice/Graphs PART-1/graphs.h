@@ -6,13 +6,18 @@
 #include <string.h>
 #include <errno.h>
 #include "linkedlist.h"
-#define DIE(assertion,message)										\
-	if(assertion) {             									\
+
+#define VERTICES_NR 10
+#define DIE(assertion,message)									 	 \
+	if(assertion) {             									 \
 		printf("Error at line %d in file %s!\n",__LINE__, __FILE__); \
-		perror("Error message");									\
-		printf("Your message: %s",message); 						\
-		exit(errno);												\
-	}				
+		perror("Error message");								 	 \
+		printf("Your message: %s",message); 						 \
+		exit(errno);												 \
+	}
+#define WHITE -1
+#define GRAY 0
+#define BLACK 1
 													
 // Adjacent matrix graph
 typedef struct
@@ -46,8 +51,20 @@ void remove_edge_mg(matrix_graph_t* my_matrix_graph, int graph_node1, int graph_
 // Release the memory for the matrix graph
 void release_mg(matrix_graph_t* my_matrix_graph);
 
-// DIsplay the graph in adjacent matrix form
+// Display the graph in adjacent matrix form
 void print_mg(matrix_graph_t* my_matrix_graph);
+
+// Display the nodes in the BFS order
+void bfs_mg(matrix_graph_t* my_matrix_graph, int node, int* color, int *parent);
+
+// Display the nodes in the DFS order
+void dfs_mg(matrix_graph_t* my_matrix_graph, int node,int* t_desc,int* t_fin);
+
+// Visit a node
+void visit_node(int* time_count, int* t_desc, int node, int* visited);
+
+// Calculate shortest routes with floyd_warshall algorthm
+void floyd_warshall(matrix_graph_t* my_matrix_graph);
 
 /*
  *    LIST GRAPH

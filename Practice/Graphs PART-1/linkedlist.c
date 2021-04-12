@@ -195,6 +195,60 @@ void ll_free(linked_list_t ** pp_list) {
     free( * pp_list);
 }
 
+// Remove nth node from queue
+void
+ll_remove_nth_node_q(linked_list_t* list, unsigned int n)
+{
+    /* TODO */
+    ll_node_t *prev_node, *removed_node;
+
+    if (!list || !list->size)
+        return;
+
+    if (!n) {
+        removed_node = list->head;
+        list->head = list->head->next;
+        removed_node->next = NULL;
+        free(removed_node->data);
+        removed_node->data = NULL;
+        free(removed_node);
+        removed_node = NULL;
+    } else {
+        prev_node = get_nth_node(list, n - 1);
+        removed_node = prev_node->next;
+        prev_node->next = removed_node->next;
+        removed_node->next = NULL;
+        free(removed_node->data);
+        removed_node->data = NULL;
+        free(removed_node);
+        removed_node = NULL;
+    }
+
+    list->size--;
+}
+
+// Return the minimum number
+int MIN(int a, int b)
+{
+    if(a<b) return a;
+    return b;
+}
+
+// Get nth node
+ll_node_t* get_nth_node(linked_list_t* list, unsigned int n)
+{
+    unsigned int len = list->size - 1;
+    unsigned int i;
+    ll_node_t* node = list->head;
+
+    n = MIN(n, len);
+
+    for (i = 0; i < n; ++i)
+        node = node->next;
+
+    return node;
+}
+
 // Display the list as int
 void ll_print_int(linked_list_t * list) {
     if (!list || !list -> head) {

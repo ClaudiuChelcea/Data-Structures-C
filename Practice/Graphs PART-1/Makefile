@@ -3,8 +3,8 @@
 # Define setup
 FLAGS=-Wall -Wextra -g
 CC=clang
-OBJECTS=graphs.o linkedlist.o main.o
-TARGETS=graphs linkedlist main linker
+OBJECTS=graphs.o linkedlist.o main.o queue.o stack.o
+TARGETS=graphs linkedlist main queue stack linker
 
 # COMPILE
 build: $(TARGETS)
@@ -17,6 +17,12 @@ linkedlist: linkedlist.c
 
 main: main.c
 	$(CC) -c $(FLAGS) main.c
+
+stack: stack.c
+	$(CC) -c $(FLAGS) stack.c
+
+queue: queue.c
+	$(CC) -c $(FLAGS) queue.c
 
 linker: $(TARGETS)
 	$(CC) -o exec $(FLAGS) $(OBJECTS)

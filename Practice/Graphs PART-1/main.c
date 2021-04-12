@@ -1,5 +1,4 @@
 #include "graphs.h"
-#define VERTICES_NR 10
 
 int main(void)
 {
@@ -16,6 +15,31 @@ int main(void)
 	add_edge_mg(my_matrix_graph, 2, 1);
 	add_edge_mg(my_matrix_graph, 3, 4);
 	print_mg(my_matrix_graph);
+	printf("Check if we have an adge between node 0 and node 1: ");
+
+	// Check for the existence of a node and delete it
+	has_edge_me(my_matrix_graph, 0, 1) == 1 ? printf("true!\n") : printf("false!\n");
+	remove_edge_mg(my_matrix_graph, 0, 1);
+	printf("Still?: ");
+	has_edge_me(my_matrix_graph, 0, 1) == 1 ? printf("true!\n") : printf("false!\n");
+	add_edge_mg(my_matrix_graph, 0, 1);
+
+	// BFS PRINT
+	printf(" === BFS ===\n");
+	int color[VERTICES_NR], parent[VERTICES_NR];
+	bfs_mg(my_matrix_graph, 3, color, parent);
+	printf("\n");
+
+	// DFS PRINT
+	printf(" === DFS ===\n");
+	int t_desc[VERTICES_NR], t_fin[VERTICES_NR];
+	dfs_mg(my_matrix_graph, 3, t_desc, t_fin);
+
+	// FLOYD - WARSHALL PRINT
+	add_edge_mg(my_matrix_graph, 1, 4);
+	add_edge_mg(my_matrix_graph, 4, 5);
+	floyd_warshall(my_matrix_graph);
+
 	// Perform operations of list graph
 
 
