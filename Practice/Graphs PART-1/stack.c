@@ -55,6 +55,8 @@ st_push(stack_t *st, void *new_data)
 void
 st_clear(stack_t *st)
 {
+	if(!st || !st->list || !st->list->head)
+		return;
 	while(st->list->head)
 		ll_remove_nth_node(st->list,st->list->size);
 }
@@ -62,7 +64,11 @@ st_clear(stack_t *st)
 void
 st_free(stack_t *st)
 {
+	if(!st)
+		return;
+		
 	st_clear(st);
+	return;
 	free(st->list);
 	st->list = NULL;
 	free(st);

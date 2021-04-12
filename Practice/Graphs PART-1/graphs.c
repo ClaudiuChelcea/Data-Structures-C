@@ -201,7 +201,7 @@ void DFS_lg(list_graph_t* my_list_graph, int node)
 	color[node] = GRAY;
 	printf("Node %d.\n", node);
 
-	while(my_stack->list && !st_is_empty(my_stack)) {
+	while(!st_is_empty(my_stack)) {
 		int val = *((int*)st_peek(my_stack));
 		st_pop(my_stack);
 
@@ -215,6 +215,7 @@ void DFS_lg(list_graph_t* my_list_graph, int node)
 			}
 			new = new->next;
 		}
+		int have_neighbors = 0;
 
 		if(found != -1)  {
 			st_push(my_stack, &found);
@@ -222,9 +223,11 @@ void DFS_lg(list_graph_t* my_list_graph, int node)
 			color[found] = GRAY;
 		}
 		else {
+			have_neighbors = 1;
 			st_pop(my_stack);
+			color[val] = BLACK;
 		}
-		color[val] = BLACK;
+		
 		ll_free(&my_list);
 	}
 	free(my_stack);
@@ -282,7 +285,8 @@ void dfs_mg(matrix_graph_t* my_matrix_graph, int node, int* t_desc, int* t_fin)
 			t_fin[search_item] = ++time_count;
 		}
 	}
-	st_free(my_stack);
+	free(my_stack->list);
+	free(my_stack);
 }
 
 // Calculate shortest routes with floyd_warshall algorthm
