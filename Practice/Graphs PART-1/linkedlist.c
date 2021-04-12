@@ -4,7 +4,7 @@
 #include "linkedlist.h"
 
 // Create list
-linked_list_t * ll_create( int data_size) {
+linked_list_t * ll_create(int data_size) {
     linked_list_t * my_list = NULL;
     my_list = malloc(sizeof(linked_list_t));
     if (!my_list) {
@@ -18,7 +18,7 @@ linked_list_t * ll_create( int data_size) {
 }
 
 // Add nth node
-void ll_add_nth_node(linked_list_t * list,  int n,
+void ll_add_nth_node(linked_list_t * list, int n,
     const void * new_data) {
     if (!list) {
         fprintf(stderr, "List doesn't exist! Exiting...\n");
@@ -109,7 +109,7 @@ void ll_add_nth_node(linked_list_t * list,  int n,
 }
 
 // Remove nth node
-ll_node_t * ll_remove_nth_node(linked_list_t * list,  int n) {
+ll_node_t * ll_remove_nth_node(linked_list_t * list, int n) {
     if (!list) {
         return (ll_node_t * ) NULL;
 
@@ -165,7 +165,7 @@ ll_node_t * ll_remove_nth_node(linked_list_t * list,  int n) {
 }
 
 // Return the size of the list
- int ll_get_size(linked_list_t * list) {
+int ll_get_size(linked_list_t * list) {
     return list -> size;
 }
 
@@ -192,55 +192,51 @@ void ll_free(linked_list_t ** pp_list) {
 }
 
 // Remove nth node from queue
-void
-ll_remove_nth_node_q(linked_list_t* list, unsigned int n)
-{
+void ll_remove_nth_node_q(linked_list_t * list, unsigned int n) {
     /* TODO */
-    ll_node_t *prev_node, *removed_node;
+    ll_node_t * prev_node, * removed_node;
 
-    if (!list || !list->size)
+    if (!list || !list -> size)
         return;
 
     if (!n) {
-        removed_node = list->head;
-        list->head = list->head->next;
-        removed_node->next = NULL;
-        free(removed_node->data);
-        removed_node->data = NULL;
+        removed_node = list -> head;
+        list -> head = list -> head -> next;
+        removed_node -> next = NULL;
+        free(removed_node -> data);
+        removed_node -> data = NULL;
         free(removed_node);
         removed_node = NULL;
     } else {
         prev_node = get_nth_node(list, n - 1);
-        removed_node = prev_node->next;
-        prev_node->next = removed_node->next;
-        removed_node->next = NULL;
-        free(removed_node->data);
-        removed_node->data = NULL;
+        removed_node = prev_node -> next;
+        prev_node -> next = removed_node -> next;
+        removed_node -> next = NULL;
+        free(removed_node -> data);
+        removed_node -> data = NULL;
         free(removed_node);
         removed_node = NULL;
     }
 
-    list->size--;
+    list -> size--;
 }
 
 // Return the minimum number
-int MIN(int a, int b)
-{
-    if(a<b) return a;
+int MIN(int a, int b) {
+    if (a < b) return a;
     return b;
 }
 
 // Get nth node
-ll_node_t* get_nth_node(linked_list_t* list, unsigned int n)
-{
-    unsigned int len = list->size - 1;
+ll_node_t * get_nth_node(linked_list_t * list, unsigned int n) {
+    unsigned int len = list -> size - 1;
     unsigned int i;
-    ll_node_t* node = list->head;
+    ll_node_t * node = list -> head;
 
     n = MIN(n, len);
 
     for (i = 0; i < n; ++i)
-        node = node->next;
+        node = node -> next;
 
     return node;
 }
