@@ -20,7 +20,7 @@ st_get_size(stack_t *st)
 }
 
 /*
- * Intoarce 1 daca stiva este goala si 0 in caz contrar.
+ * Return 1 if the stack is empty or 0 if not
  */
 unsigned int
 st_is_empty(stack_t *st)
