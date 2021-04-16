@@ -41,7 +41,20 @@ dfs_connected_comps(list_graph_t *lg, int node, int *visited, linked_list_t *com
 		if(found >=0) {
 			visited[found] = 1;
 			st_push(mystack, &found);
-			ll_add_nth_node(component,component->size,&found);
+			int index = -1;
+			ll_node_t* mynew = component->head;
+			for(int i=0;i<component->size; i++) {
+				int my_val = *((int*)mynew->data);
+				if(my_val > found) {
+					index = i;
+					break;
+				}
+				mynew = mynew->next;
+			}
+			if(index !=-1)
+				ll_add_nth_node(component,index,&found);
+			else
+				ll_add_nth_node(component,component->size,&found);
 		}
 		else {
 			
@@ -330,7 +343,7 @@ main(void)
 	7 8 
 	9 10 
 	*/
-	test_connected_comp();
+	//test_connected_comp();
 
 /* 2) [3.5p] Un curier, care se află într-un oraș A, trebuie să livreze un pachet într-un oraș B.
 
