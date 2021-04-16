@@ -6,7 +6,7 @@
 #include "Queue.h"
 #include "Stack.h"
 #include "utils.h"
-
+#define level color
 
 #define MAX_NODES 100
 #define INF	-1
@@ -175,15 +175,60 @@ min_path(list_graph_t *lg, int start, int *dist)
 			mynode = mynode->next;
 		}
 	}
-
-	
 }
 
 static int
-check_bipartite(list_graph_t *lg, int *color)
+check_bipartite(list_graph_t *lg, int *level)
 {
-	/* TODO: multimile vor avea culorile 1, respectiv 2 */
-	return 0;
+	if(!lg)
+		return 0;
+	
+	int visited[lg->nodes];
+	for(int i=0;i<lg->nodes;i++) {
+		level[i] = 0;
+		visited[i] = 0;
+	}
+
+	
+	queue_t* my_queue = q_create(sizeof(int),lg->nodes);
+	int starting_node = 0;
+	level[starting_node] = 2;
+	q_enqueue(my_queue,&starting_node);
+	visited[starting_node] = 1;
+
+	while(!q_is_empty(my_queue)) {
+		int v = *((int*)(q_front(my_queue)));
+		q_dequeue(my_queue);
+
+		// Luam vecinii
+		linked_list_t* mylist = ll_create(sizeof(int));
+		ll_node_t* mynode = lg->neighbors[v]->head;
+		for(int i=0;i<(int)lg->neighbors[v]->size;i++) {
+			ll_add_nth_node(mylist,mylist->size,mynode->data);
+			mynode = mynode->next;
+		}
+
+		// Parcurgem vecinii
+		mynode = mylist->head;
+		for(int i=0;i<(int)mylist->size;i++) {
+			int data = *((int*)(mynode->data));
+			if(visited[data] == 0) {
+				if(level[data] == 0) {
+					if(level[v] == 2)
+						level[data] = 1;
+					else
+						level[data] = 2;
+					q_enqueue(my_queue,&data);
+					visited[data] = 1;
+				}
+				else{
+					return 0;
+				}
+			}
+			mynode = mynode->next;
+		}
+	}
+	return 1;
 }
 
 static void
@@ -287,7 +332,7 @@ test_min_dist(void)
 static void
 test_bipartite(void)
 {
-	unsigned int i, nodes, edges;
+	unsigned int i = 0, nodes = 0, edges = 0;
 	int color[MAX_NODES] = {0};
 	int x, y;
 	list_graph_t *lg;
@@ -402,10 +447,30 @@ int main(void)
 	1 2	 M2 FIZ
 	*/
 	
-	test_topo_sort();
+	//test_topo_sort();
 
 	/* Ex 4 */
-	// test_bipartite();
+	/*
+4) [3.5p] Dându-se n noduri și m muchii ale unui graf neorientat,
+determinați dacă acest graf este bipartit și aflați cele două mulțimi care îl formează,
+completând metoda check_bipartite din schelet.
+
+INPUT:
+9 8 
+0 1 
+0 6 
+1 2 
+2 7 
+3 6 
+4 7 
+4 8 
+5 8 
+
+EXPECTED OUTPUT:
+0 2 3 4 5 
+1 6 7 8 
+	*/
+	//test_bipartite();
 
 	return 0;
 }
