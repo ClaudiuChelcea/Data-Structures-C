@@ -53,7 +53,7 @@ dfs_connected_comps(list_graph_t *lg, int node, int *visited, linked_list_t *com
 static linked_list_t **
 connected_components(list_graph_t *lg, int *visited, unsigned int *num_comp)
 {
-	linked_list_t **componente_conexe = malloc(lg->nodes * sizeof(linked_list_t *));
+	linked_list_t **componente_conexe = malloc((lg->nodes) * sizeof(linked_list_t *));
 	DIE(!componente_conexe, "malloc comps failed");
 
 	for(int i=0;i<lg->nodes;i++) {
@@ -113,7 +113,7 @@ topo_sort(list_graph_t *lg, int *visited)
 	for(int i=0;i<lg->nodes;i++)
 		visited[i] = 0;
 	
-	for(int i=0;i<lg->nodes;i++) {
+	for(int i=0;i<lg->nodes-1;i++) {
 		if(visited[i] == 0) {
 			dfs_topo_sort(lg,i,visited,sorted);
 		}
@@ -201,7 +201,7 @@ test_connected_comp(void)
 	}
 	printf("\n");
 
-	//free(comps);
+	free(comps);
 	lg_free(lg);
 }
 
@@ -253,8 +253,6 @@ test_min_dist(void)
 		lg_add_edge(lg, x, y);
 		lg_add_edge(lg, y, x);
 	}
-
-	// vizualizare noduri
 	// print_lg(lg);
 
 	for (i = 0; i != (int)nodes; ++i)
@@ -332,8 +330,7 @@ main(void)
 	7 8 
 	9 10 
 	*/
-	// FIX PRINT ORDER
-	//test_connected_comp();
+	test_connected_comp();
 
 /* 2) [3.5p] Un curier, care se află într-un oraș A, trebuie să livreze un pachet într-un oraș B.
 
@@ -359,8 +356,7 @@ main(void)
 	4 6 
 	0 6 
 	*/
-	// Aplicati: print_lg(lg) in functia test_min_dist() daca vreti sa va convingeti (va afisa lista pe care o puteti reprezenta pe foaie / in paint)
-	//test_min_dist();
+	// test_min_dist();
 
 	/*
 3)[3.5p] În primii ani de studiu, toți studenții de la Facultatea de Automatică și Calculatoare studiază un număr de N materii obligatorii.
@@ -382,23 +378,16 @@ main(void)
 	6 4
 	3 4
 	4 5
-	1 2
 	0 2
-
-	Expected:
-	0
-	1
-	2
-	3
-	4
-	5
+	1 2
 
 	*/
 	
-	// test_topo_sort();
+	//test_topo_sort();
 
 	/* Ex 4 */
 	//test_bipartite();
 
 	return 0;
 }
+
