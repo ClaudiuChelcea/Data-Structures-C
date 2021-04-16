@@ -196,7 +196,6 @@ void DFS_lg(list_graph_t * my_list_graph, int node) {
 
     while (!st_is_empty(my_stack)) {
         int val = * ((int * ) st_peek(my_stack));
-        st_pop(my_stack);
 
         int found = -1;
         linked_list_t * my_list = get_neighbors(my_list_graph, val);
