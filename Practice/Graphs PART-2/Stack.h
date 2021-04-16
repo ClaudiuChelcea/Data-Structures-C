@@ -19,7 +19,13 @@ unsigned int
 st_is_empty(stack_t* st);
 
 void*
+st_peek_new(stack_t* st);
+
+void*
 st_peek(stack_t* st);
+
+void
+st_pop_new(stack_t* st);
 
 void
 st_pop(stack_t* st);

@@ -43,7 +43,7 @@ dfs_connected_comps(list_graph_t *lg, int node, int *visited, linked_list_t *com
 			st_push(mystack, &found);
 			int index = -1;
 			ll_node_t* mynew = component->head;
-			for(int i=0;i<component->size; i++) {
+			for(int i=0;i<(int)component->size; i++) {
 				int my_val = *((int*)mynew->data);
 				if(my_val > found) {
 					index = i;
@@ -85,14 +85,14 @@ connected_components(list_graph_t *lg, int *visited, unsigned int *num_comp)
 }
 
 static void
-dfs_topo_sort(list_graph_t *lg, int node, int *visited, linked_list_t *sorted)
+dfs_topo_sort(list_graph_t *lg, int node, int *visited, int t_fin[], int *cnt, linked_list_t* sorted)
 {
 	stack_t* mystack = st_create(sizeof(int));
 	st_push(mystack, &node);
 	visited[node] = 1;
-
+	int added_element=0;
 	while(!st_is_empty(mystack)) {
-		int v = *((int*)st_peek(mystack));
+		int v = *((int*)st_peek_new(mystack));
 		int found = -1;
 		int data = 0;
 		ll_node_t* newnode = lg->neighbors[v]->head;
@@ -106,29 +106,56 @@ dfs_topo_sort(list_graph_t *lg, int node, int *visited, linked_list_t *sorted)
 			newnode = newnode->next;
 		}
 
-		if(found >=0) {
+		if(found != -1) {
 			visited[found] = 1;
 			st_push(mystack, &found);
+			*cnt = *cnt + 1;
+			added_element = 1;
 		}
 		else {
-			ll_add_nth_node(sorted, sorted->size, st_peek(mystack));
-			st_pop(mystack);
+			int source = *((int*)(st_peek_new(mystack)));
+			*cnt = *cnt + 1;
+			t_fin[source] = *cnt;
+			ll_add_nth_node(sorted,0,&source);
+			st_pop_new(mystack);
 		}
 	}
+}
+
+int find_min_from_vect(int* vect, int size)
+{
+	for(int i=0;i<size;i++)
+		printf("%d ",vect[i]);
+	printf("\n");
+	
+	int pos = -1;
+	int min = 9999;
+	for(int i=0;i<size;i++) {
+		if(min>=vect[i] && vect[i]!=0) {
+			min = vect[i];
+			pos = i;
+		}
+	}
+	vect[pos] = 0;
+	return pos;
 }
 
 static linked_list_t *
 topo_sort(list_graph_t *lg, int *visited)
 {
 	linked_list_t *sorted = ll_create(sizeof(int));
-	
-	/* TODO: adaugati nodurile in lista sorted, in ordinea corecta */
-	for(int i=0;i<lg->nodes;i++)
+	int t_fin[lg->nodes];
+	for(int i=0;i<(int)lg->nodes;i++) {
+		t_fin[i] = 0;
 		visited[i] = 0;
-	
+	}
+	/* TODO: adaugati nodurile in lista sorted, in ordinea corecta */
+	int cnt = 1;
 	for(int i=0;i<lg->nodes-1;i++) {
 		if(visited[i] == 0) {
-			dfs_topo_sort(lg,i,visited,sorted);
+			dfs_topo_sort(lg,i,visited,t_fin, &cnt,sorted);
+			cnt++;
+			printf("da");
 		}
 	}
 
@@ -222,7 +249,7 @@ static void
 test_topo_sort(void)
 {
 	unsigned int i = 0, nodes=0, edges=0;
-	int x=0,y=0;
+	int x = 0, y = 0;
 	int visited[MAX_NODES] = {0};
 	list_graph_t *lg = NULL;
 	linked_list_t *sorted = NULL;
@@ -317,8 +344,7 @@ test_bipartite(void)
 	lg_free(lg);
 }
 
-int
-main(void)
+int main(void)
 {
 /* 1) [3.5p]Într-o rețea de socializare pentru gameri există mai multe clanuri.
 	Doi jucători fac parte din același clan dacă există un drum atât de la X la Y, cât și de la Y la X.
@@ -369,7 +395,7 @@ main(void)
 	4 6 
 	0 6 
 	*/
-	// test_min_dist();
+	//test_min_dist();
 
 	/*
 3)[3.5p] În primii ani de studiu, toți studenții de la Facultatea de Automatică și Calculatoare studiază un număr de N materii obligatorii.
@@ -386,20 +412,27 @@ main(void)
 	Matematica1  Fizica 
 	Matematica2  Fizica 
 
+	OUTPUT:
+	Matematica2 
+	Matematica1 
+	Fizica 
+	Programarea_Calculatoarelor 
+	Structuri_de_Date 
+	Programare_Orientata_pe_Obiecte 
 	=====
 
 	6 4
-	3 4
-	4 5
-	0 2
-	1 2
-
+	3 4  PC SD
+	4 5  SD POO
+	1 2  M1 FIZ
+	0 2	 M2 FIZ
+	OUTPUT EXPECTED: M2 M1 FIZ PC SD POO = 0 1 2 3 4 5
 	*/
 	
-	//test_topo_sort();
+	test_topo_sort();
 
 	/* Ex 4 */
-	//test_bipartite();
+	// test_bipartite();
 
 	return 0;
 }

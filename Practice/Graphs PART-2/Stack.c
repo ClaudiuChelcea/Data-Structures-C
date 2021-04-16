@@ -33,12 +33,26 @@ st_is_empty(stack_t* st)
 }
 
 void*
+st_peek_new(stack_t* st)
+{
+	/* TODO */
+	if (!st || !st->list || !st->list->size)
+		return NULL;
+	ll_node_t* newnode = st->list->head;
+	if(!newnode->next)
+		return newnode->data;
+	while(newnode->next)
+		newnode = newnode->next;
+	return newnode->data;
+}
+
+void*
 st_peek(stack_t* st)
 {
 	/* TODO */
 	if (!st || !st->list || !st->list->size)
 		return NULL;
-
+	
 	return st->list->head->data;
 }
 
@@ -55,13 +69,27 @@ st_pop(stack_t* st)
 	free(node->data);
 	free(node);
 }
+
+void
+st_pop_new(stack_t* st)
+{
+	/* TODO */
+	ll_node_t *node;
+
+	if (!st || !st->list)
+		return;
+
+	node = ll_remove_nth_node(st->list, st->list->size-1);
+	free(node->data);
+	free(node);
+}
+
 void
 st_push(stack_t* st, void* new_data)
 {
 	if(!st)
 		return;
 	ll_add_nth_node(st->list, st->list->size, new_data);
-
 }
 
 void
