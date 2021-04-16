@@ -139,8 +139,7 @@ ll_node_t * ll_remove_nth_node(linked_list_t * list,  int n) {
         while (copy -> next -> next)
             copy = copy -> next;
 
-        ll_node_t * my_new_node = NULL;
-        my_new_node = copy -> next;
+     
         free(copy -> next -> data);
         copy -> next -> next = NULL;
         free(copy -> next);
