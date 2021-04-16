@@ -85,12 +85,11 @@ connected_components(list_graph_t *lg, int *visited, unsigned int *num_comp)
 }
 
 static void
-dfs_topo_sort(list_graph_t *lg, int node, int *visited, int t_fin[], int *cnt, linked_list_t* sorted)
+dfs_topo_sort(list_graph_t *lg, int node, int *visited, linked_list_t* sorted)
 {
 	stack_t* mystack = st_create(sizeof(int));
 	st_push(mystack, &node);
 	visited[node] = 1;
-	int added_element=0;
 	while(!st_is_empty(mystack)) {
 		int v = *((int*)st_peek_new(mystack));
 		int found = -1;
@@ -109,52 +108,27 @@ dfs_topo_sort(list_graph_t *lg, int node, int *visited, int t_fin[], int *cnt, l
 		if(found != -1) {
 			visited[found] = 1;
 			st_push(mystack, &found);
-			*cnt = *cnt + 1;
-			added_element = 1;
 		}
 		else {
 			int source = *((int*)(st_peek_new(mystack)));
-			*cnt = *cnt + 1;
-			t_fin[source] = *cnt;
 			ll_add_nth_node(sorted,0,&source);
 			st_pop_new(mystack);
 		}
 	}
 }
 
-int find_min_from_vect(int* vect, int size)
-{
-	for(int i=0;i<size;i++)
-		printf("%d ",vect[i]);
-	printf("\n");
-	
-	int pos = -1;
-	int min = 9999;
-	for(int i=0;i<size;i++) {
-		if(min>=vect[i] && vect[i]!=0) {
-			min = vect[i];
-			pos = i;
-		}
-	}
-	vect[pos] = 0;
-	return pos;
-}
-
 static linked_list_t *
 topo_sort(list_graph_t *lg, int *visited)
 {
 	linked_list_t *sorted = ll_create(sizeof(int));
-	int t_fin[lg->nodes];
+
 	for(int i=0;i<(int)lg->nodes;i++) {
-		t_fin[i] = 0;
 		visited[i] = 0;
 	}
 	/* TODO: adaugati nodurile in lista sorted, in ordinea corecta */
-	int cnt = 1;
 	for(int i=0;i<lg->nodes-1;i++) {
 		if(visited[i] == 0) {
-			dfs_topo_sort(lg,i,visited,t_fin, &cnt,sorted);
-			cnt++;
+			dfs_topo_sort(lg,i,visited,sorted);
 			printf("da");
 		}
 	}
@@ -424,9 +398,8 @@ int main(void)
 	6 4
 	3 4  PC SD
 	4 5  SD POO
-	1 2  M1 FIZ
-	0 2	 M2 FIZ
-	OUTPUT EXPECTED: M2 M1 FIZ PC SD POO = 0 1 2 3 4 5
+	0 2  M1 FIZ
+	1 2	 M2 FIZ
 	*/
 	
 	test_topo_sort();
