@@ -119,7 +119,6 @@ static linked_list_t *
     for (int i = 0; i < lg -> nodes - 1; i++) {
       if (visited[i] == 0) {
         dfs_topo_sort(lg, i, visited, sorted);
-        printf("da");
       }
     }
 
