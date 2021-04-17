@@ -45,7 +45,7 @@ bool
 q_dequeue(queue_t * q) {
     if (!q || !q -> size)
         return false;
-
+        
     free(q -> buff[q -> read_idx]);
 
     q -> read_idx = (q -> read_idx + 1) % q -> max_size;

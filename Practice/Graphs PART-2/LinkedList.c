@@ -21,7 +21,7 @@ linked_list_t *
     }
 
 static ll_node_t *
-    get_nth_node(linked_list_t * list, unsigned int n) {
+get_nth_node(linked_list_t * list, unsigned int n) {
         unsigned int len = list -> size - 1;
         unsigned int i;
         ll_node_t * node = list -> head;

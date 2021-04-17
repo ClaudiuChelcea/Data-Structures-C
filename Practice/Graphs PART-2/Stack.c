@@ -68,14 +68,17 @@ st_pop(stack_t * st) {
 void
 st_pop_new(stack_t * st) {
     /* TODO */
-    ll_node_t * node;
+    ll_node_t * node = NULL;
 
     if (!st || !st -> list)
         return;
 
     node = ll_remove_nth_node(st -> list, st -> list -> size - 1);
     free(node -> data);
+    node->data = NULL;
+    node->next = NULL;
     free(node);
+    node = NULL;
 }
 
 void
