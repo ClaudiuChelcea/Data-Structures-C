@@ -37,4 +37,6 @@ ll_print_int(linked_list_t* list);
 void
 ll_print_string(linked_list_t* list);
 
+int ll_get_last(linked_list_t* list);
+
 #endif /* LINKED_LIST_H_ */
