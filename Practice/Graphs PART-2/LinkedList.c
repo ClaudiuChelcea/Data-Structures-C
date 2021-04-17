@@ -1,17 +1,14 @@
 #include <stdio.h>
-
 #include <stdlib.h>
-
 #include <string.h>
-
 #include "LinkedList.h"
-
 #include "utils.h"
 
 #define MIN(x, y)((x) < (y) ? (x) : (y))
 
+// Create list
 linked_list_t *
-    ll_create(unsigned int data_size) {
+ll_create(unsigned int data_size) {
         linked_list_t * ll = calloc(1, sizeof( * ll));
         DIE(!ll, "calloc list");
 
@@ -20,6 +17,7 @@ linked_list_t *
         return ll;
     }
 
+// Get nth node
 static ll_node_t *
 get_nth_node(linked_list_t * list, unsigned int n) {
         unsigned int len = list -> size - 1;
@@ -34,8 +32,9 @@ get_nth_node(linked_list_t * list, unsigned int n) {
         return node;
     }
 
+// Create node
 static ll_node_t *
-    create_node(const void * new_data, unsigned int data_size) {
+create_node(const void * new_data, unsigned int data_size) {
         ll_node_t * node = calloc(1, sizeof( * node));
         DIE(!node, "calloc node");
 
@@ -47,13 +46,7 @@ static ll_node_t *
         return node;
     }
 
-/*
- * Pe baza datelor trimise prin pointerul new_data, se creeaza un nou nod care e
- * adaugat pe pozitia n a listei reprezentata de pointerul list. Pozitiile din
- * lista sunt indexate incepand cu 0 (i.e. primul nod din lista se afla pe
- * pozitia n=0). Daca n >= nr_noduri, noul nod se adauga la finalul listei. Daca
- * n < 0, eroare.
- */
+// Add node to nth position
 void
 ll_add_nth_node(linked_list_t * list, unsigned int n,
     const void * new_data) {
@@ -88,16 +81,9 @@ int ll_get_last(linked_list_t * list) {
     return node_data;
 }
 
-/*
- * Elimina nodul de pe pozitia n din lista al carei pointer este trimis ca
- * parametru. Pozitiile din lista se indexeaza de la 0 (i.e. primul nod din
- * lista se afla pe pozitia n=0). Daca n >= nr_noduri - 1, se elimina nodul de
- * la finalul listei. Daca n < 0, eroare. Functia intoarce un pointer spre acest
- * nod proaspat eliminat din lista. Este responsabilitatea apelantului sa
- * elibereze memoria acestui nod.
- */
+// Remove nth node
 ll_node_t *
-    ll_remove_nth_node(linked_list_t * list, unsigned int n) {
+ll_remove_nth_node(linked_list_t * list, unsigned int n) {
         ll_node_t * prev_node, * removed_node;
 
         if (!list || !list -> size)
@@ -119,21 +105,13 @@ ll_node_t *
         return removed_node;
     }
 
-/*
- * Functia intoarce numarul de noduri din lista al carei pointer este trimis ca
- * parametru.
- */
+// Get the size of the list
 unsigned int
 ll_get_size(linked_list_t * list) {
     return !list ? 0 : list -> size;
 }
 
-/*
- * Procedura elibereaza memoria folosita de toate nodurile din lista, iar la
- * sfarsit, elibereaza memoria folosita de structura lista si actualizeaza la
- * NULL valoarea pointerului la care pointeaza argumentul (argumentul este un
- * pointer la un pointer).
- */
+// Free the list
 void
 ll_free(linked_list_t ** pp_list) {
     ll_node_t * node;
@@ -151,11 +129,7 @@ ll_free(linked_list_t ** pp_list) {
     * pp_list = NULL;
 }
 
-/*
- * Atentie! Aceasta functie poate fi apelata doar pe liste ale caror noduri STIM
- * ca stocheaza int-uri. Functia afiseaza toate valorile int stocate in nodurile
- * din lista inlantuita separate printr-un spatiu.
- */
+// Print the int values of the list
 void
 ll_print_int(linked_list_t * list) {
     ll_node_t * node = list -> head;
@@ -165,11 +139,7 @@ ll_print_int(linked_list_t * list) {
     printf("\n");
 }
 
-/*
- * Atentie! Aceasta functie poate fi apelata doar pe liste ale caror noduri STIM
- * ca stocheaza string-uri. Functia afiseaza toate string-urile stocate in
- * nodurile din lista inlantuita, separate printr-un spatiu.
- */
+// Print the string values of the list
 void
 ll_print_string(linked_list_t * list) {
     ll_node_t * node = list -> head;

@@ -4,6 +4,7 @@
 
 #include "utils.h"
 
+// Create stack
 stack_t *
     st_create(unsigned int data_size) {
         stack_t * st = malloc(sizeof( * st));
@@ -14,6 +15,7 @@ stack_t *
         return st;
     }
 
+// Get stack size
 unsigned int
 st_get_size(stack_t * st) {
     if (!st || !st -> list)
@@ -21,17 +23,14 @@ st_get_size(stack_t * st) {
     return st -> list -> size;
 }
 
-/*
- * Intoarce 1 daca stiva este goala si 0 in caz contrar.
- */
+// Check if the stack is empty
 unsigned int
 st_is_empty(stack_t * st) {
-    /* TODO */
     return !st || !st -> list || !st -> list -> size;
 }
 
-void *
-    st_peek_new(stack_t * st) {
+// Peek at the top of the stack
+void * st_peek_new(stack_t * st) {
         /* TODO */
         if (!st || !st -> list || !st -> list -> size)
             return NULL;
@@ -43,15 +42,15 @@ void *
         return newnode -> data;
     }
 
-void *
-    st_peek(stack_t * st) {
-        /* TODO */
+// Peek at the top of the stack
+void * st_peek(stack_t * st) {
         if (!st || !st -> list || !st -> list -> size)
             return NULL;
 
         return st -> list -> head -> data;
     }
 
+// Pop the top of the stack
 void
 st_pop(stack_t * st) {
     /* TODO */
@@ -65,9 +64,9 @@ st_pop(stack_t * st) {
     free(node);
 }
 
+// Pop the top of the stack
 void
 st_pop_new(stack_t * st) {
-    /* TODO */
     ll_node_t * node = NULL;
 
     if (!st || !st -> list)
@@ -81,6 +80,7 @@ st_pop_new(stack_t * st) {
     node = NULL;
 }
 
+// Push at the top of the stack
 void
 st_push(stack_t * st, void * new_data) {
     if (!st)
@@ -88,15 +88,16 @@ st_push(stack_t * st, void * new_data) {
     ll_add_nth_node(st -> list, st -> list -> size, new_data);
 }
 
+// Clear stack elements
 void
 st_clear(stack_t * st) {
-    /* TODO */
     if (!st || !st -> list)
         return;
 
     ll_free( & st -> list);
 }
 
+// Release stack
 void
 st_free(stack_t * st) {
     /* TODO */

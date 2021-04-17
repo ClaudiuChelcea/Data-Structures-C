@@ -6,6 +6,7 @@
 
 #include "utils.h"
 
+// Create queue
 queue_t *
     q_create(unsigned int data_size, unsigned int max_size) {
         queue_t * q = calloc(1, sizeof( * q));
@@ -20,19 +21,19 @@ queue_t *
         return q;
     }
 
+// Get the size of the list
 unsigned int
 q_get_size(queue_t * q) {
     return !q ? 0 : q -> size;
 }
 
-/*
- * Intoarce 1 daca stiva este goala si 0 in caz contrar.
- */
+// Check if list is empty
 unsigned int
 q_is_empty(queue_t * q) {
     return !q ? 1 : !q -> size;
 }
 
+// Get the first element of queue
 void *
     q_front(queue_t * q) {
         if (!q || !q -> size)
@@ -41,11 +42,12 @@ void *
         return q -> buff[q -> read_idx];
     }
 
+// Dequeue element
 bool
 q_dequeue(queue_t * q) {
     if (!q || !q -> size)
         return false;
-        
+
     free(q -> buff[q -> read_idx]);
 
     q -> read_idx = (q -> read_idx + 1) % q -> max_size;
@@ -53,6 +55,7 @@ q_dequeue(queue_t * q) {
     return true;
 }
 
+// Enqueue element
 bool
 q_enqueue(queue_t * q, void * new_data) {
     void * data;
@@ -70,6 +73,8 @@ q_enqueue(queue_t * q, void * new_data) {
     return true;
 }
 
+
+// Clear queue elements
 void
 q_clear(queue_t * q) {
     unsigned int i;
@@ -84,6 +89,7 @@ q_clear(queue_t * q) {
     q -> size = 0;
 }
 
+// Release queue
 void
 q_free(queue_t * q) {
     if (!q)

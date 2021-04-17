@@ -6,12 +6,14 @@
 
 #include "utils.h"
 
+// Check if node is in the graph
 static int is_node_in_graph(int n, int nodes) {
     return n >= 0 && n < nodes;
 }
 
+// Create list graph
 list_graph_t *
-    lg_create(int nodes) {
+lg_create(int nodes) {
         int i;
 
         list_graph_t * g = malloc(sizeof( * g));
@@ -28,6 +30,7 @@ list_graph_t *
         return g;
     }
 
+// Add edge to graph
 void
 lg_add_edge(list_graph_t * graph, int src, int dest) {
     if (
@@ -40,6 +43,7 @@ lg_add_edge(list_graph_t * graph, int src, int dest) {
     ll_add_nth_node(graph -> neighbors[src], 0, & dest);
 }
 
+// Check if node is in the graph
 static ll_node_t * find_node(linked_list_t * ll, int node, unsigned int * pos) {
     ll_node_t * crt = ll -> head;
     unsigned int i;
@@ -56,6 +60,7 @@ static ll_node_t * find_node(linked_list_t * ll, int node, unsigned int * pos) {
     return NULL;
 }
 
+// CHeck if edge is in the graph
 int
 lg_has_edge(list_graph_t * graph, int src, int dest) {
     unsigned int pos;
@@ -70,6 +75,7 @@ lg_has_edge(list_graph_t * graph, int src, int dest) {
     return find_node(graph -> neighbors[src], dest, & pos) != NULL;
 }
 
+// Get the neighbors of a node
 linked_list_t *
     lg_get_neighbours(list_graph_t * graph, int node) {
         if (
@@ -81,6 +87,7 @@ linked_list_t *
         return graph -> neighbors[node];
     }
 
+// Remove edge from list
 void
 lg_remove_edge(list_graph_t * graph, int src, int dest) {
     unsigned int pos;
@@ -98,6 +105,7 @@ lg_remove_edge(list_graph_t * graph, int src, int dest) {
     ll_remove_nth_node(graph -> neighbors[src], pos);
 }
 
+// Free list
 void
 lg_free(list_graph_t * graph) {
     int i;

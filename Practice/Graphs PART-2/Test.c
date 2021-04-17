@@ -16,9 +16,7 @@
 #define MAX_NODES 100
 #define INF - 1
 
-/**
- * Adaugati nodurile componentei conexe curente in lista component. 
- */
+// Return all connected conex components
 static void
 dfs_connected_comps(list_graph_t * lg, int node, int * visited, linked_list_t * component) {
     stack_t * mystack = st_create(sizeof(int));
@@ -66,6 +64,7 @@ dfs_connected_comps(list_graph_t * lg, int node, int * visited, linked_list_t * 
     st_free(mystack);
 }
 
+// Return all connected conex components
 static linked_list_t **
 connected_components(list_graph_t * lg, int * visited, unsigned int * num_comp) {
         linked_list_t ** componente_conexe = malloc((lg -> nodes) * sizeof(linked_list_t * ));
@@ -86,6 +85,7 @@ connected_components(list_graph_t * lg, int * visited, unsigned int * num_comp) 
         return componente_conexe;
     }
 
+// Topologic sort
 static void
 dfs_topo_sort(list_graph_t * lg, int node, int * visited, linked_list_t * sorted) {
     stack_t * mystack = st_create(sizeof(int));
@@ -116,6 +116,7 @@ dfs_topo_sort(list_graph_t * lg, int node, int * visited, linked_list_t * sorted
     st_free(mystack);
 }
 
+// Topologic sort
 static linked_list_t *topo_sort(list_graph_t * lg, int * visited) {
         linked_list_t * sorted = ll_create(sizeof(int));
 
@@ -132,6 +133,7 @@ static linked_list_t *topo_sort(list_graph_t * lg, int * visited) {
         return sorted;
     }
 
+// Minimum distances between all nodes
 static void
 min_path(list_graph_t * lg, int start, int * dist) {
     if (!lg)
@@ -174,6 +176,7 @@ min_path(list_graph_t * lg, int start, int * dist) {
     q_free(my_queue);
 }
 
+// Check if graph is bipartite
 static int
 check_bipartite(list_graph_t * lg, int * level) {
     if (!lg)
@@ -228,6 +231,8 @@ check_bipartite(list_graph_t * lg, int * level) {
     return 1;
 }
 
+
+// Test connected components
 static void
 test_connected_comp(FILE * fptr) {
     unsigned int num_comps = 0, i = 0, nodes = 0, edges = 0;
@@ -264,6 +269,7 @@ test_connected_comp(FILE * fptr) {
     lg_free(lg);
 }
 
+// Test topologic sort
 static void
 test_topo_sort(FILE * fptr) {
     unsigned int i = 0, nodes = 0, edges = 0;
@@ -294,6 +300,7 @@ test_topo_sort(FILE * fptr) {
     lg_free(lg);
 }
 
+// Test minimum distances
 static void
 test_min_dist(FILE * fptr) {
     unsigned int nodes = 0, edges = 0, time = 0;
@@ -313,7 +320,6 @@ test_min_dist(FILE * fptr) {
         lg_add_edge(lg, x, y);
         lg_add_edge(lg, y, x);
     }
-    // print_lg(lg);
 
     for (i = 0; i != (int) nodes; ++i)
         dist[i] = INF;
@@ -330,6 +336,7 @@ test_min_dist(FILE * fptr) {
     lg_free(lg);
 }
 
+// Test bipartite graph
 static void
 test_bipartite(FILE * fptr) {
     unsigned int i = 0, nodes = 0, edges = 0;
@@ -365,7 +372,7 @@ test_bipartite(FILE * fptr) {
     lg_free(lg);
 }
 
-// Verifica daca un nod se afla in lant
+// Test item is new in the chain
 int nouInLant(linked_list_t * lant, int value) {
     ll_node_t * mynode = lant -> head;
     for (int i = 0; i < (int) lant -> size; i++) {
@@ -377,8 +384,7 @@ int nouInLant(linked_list_t * lant, int value) {
     return 1;
 }
 
-// Construire lant
-// 3 1 4 2 0
+// Build the chain
 int construireLant(linked_list_t * lant, int nr_nodes, list_graph_t * graph, int * node_list) {
     if ((int) lant -> size == nr_nodes) {
         int beginning = * ((int * ) lant -> head -> data);
@@ -411,6 +417,7 @@ int construireLant(linked_list_t * lant, int nr_nodes, list_graph_t * graph, int
     return 0;
 }
 
+// CHeck if item is in the vector
 int in_vect(int * node_list, int data, int nr_nodes) {
     for (int i = 0; i < nr_nodes; i++)
         if (data == node_list[i])
@@ -419,6 +426,7 @@ int in_vect(int * node_list, int data, int nr_nodes) {
     return 0;
 }
 
+// Test hamilton graph
 void test_hamilton(FILE * fptr) {
     // Create list
     printf("\nUNDIRECTED graph for the hamilton graph problem:\n");
@@ -475,133 +483,16 @@ int main(void) {
     FILE * fptr = NULL;
     fptr = fopen("InputFile.txt", "rt");
     DIE(!fptr, "Couldn't open file! Please check that the input file is in the same folder!!!\n");
-    /* 1) [3.5p]Într-o rețea de socializare pentru gameri există mai multe clanuri.
-    	Doi jucători fac parte din același clan dacă există un drum atât de la X la Y, cât și de la Y la X.
-    	Când se creează o nouă legatură între doi jucători, clanurile din care ei fac parte se unesc formând un singur clan.
-
-    	Se dau n numărul de gameri din rețeaua de socializare si m numărul de legături ce există intre aceștia.
-    	În continuare, sunt citite cele m legături.
-
-    	Determinați numărul clanurilor existente în rețea și jucătorii care fac parte din fiecare clan,
-    	completând metodele connected_components și dfs_connected_comps din schelet.
-    */
-    /* INPUT OCW
-    12 10 
-    0 1 
-    0 2 
-    1 2 
-    2 3 
-    4 5 
-    4 6 
-    5 6 
-    4 7 
-    7 8 
-    9 10 
-    */
+   
     test_connected_comp(fptr);
 
-    /* 2) [3.5p] Un curier, care se află într-un oraș A, trebuie să livreze un pachet într-un oraș B.
-
-    	Pe hartă se află n orașe, conectate prin m străzi bidirecționale.
-    	Se știe faptul că fiecare dintre aceste străzi este parcursă într-un timp constant t.
-
-    	Se citesc n, m, numărul de teste, cele m străzi și un număr de perechi de orașe A și B egal cu numărul de teste.
-
-    	Determinați ruta cea mai scurtă pe care poate ajunge curierul în orașul B,
-    	în cazul în care aceasta există, completând metoda min_path din schelet.
-    */
-    /* INPUT OCW
-    7 10 1
-    0 1 
-    0 4 
-    1 2 
-    1 3 
-    1 4 
-    2 4 
-    3 5 
-    3 6 
-    4 5 
-    4 6 
-    0 6 
-    */
     test_min_dist(fptr);
-
-    /*
-3)[3.5p] În primii ani de studiu, toți studenții de la Facultatea de Automatică și Calculatoare studiază un număr de N materii obligatorii.
-	Dându-se un set de relații între acestea, cu semnificația că materia din stânga trebuie studiată într-un semestru anterior (nu neapărat din același an),
-	celei din partea dreaptă, găsiti și implementați un algoritm care propune o ordine corectă de studiere a materiilor universitare,
-	care să respecte restricțiile impuse, completând metodele topo_sort și dfs_topo_sort din schelet.
-*/
-
-    /* INPUT OCW */
-    /*
-    6 4 
-    Programarea_Calculatoarelor  Structuri_de_Date 
-    Structuri_de_Date Programare_Orientata_pe_Obiecte 
-    Matematica1  Fizica 
-    Matematica2  Fizica 
-
-    OUTPUT:
-    Matematica2 
-    Matematica1 
-    Fizica 
-    Programarea_Calculatoarelor 
-    Structuri_de_Date 
-    Programare_Orientata_pe_Obiecte 
-    =====
-
-    6 4
-    3 4  PC SD
-    4 5  SD POO
-    0 2  M1 FIZ
-    1 2	 M2 FIZ
-    */
 
     test_topo_sort(fptr);
 
-    /* Ex 4 */
-    /*
-  4) [3.5p] Dându-se n noduri și m muchii ale unui graf neorientat,
-  determinați dacă acest graf este bipartit și aflați cele două mulțimi care îl formează,
-  completând metoda check_bipartite din schelet.
-
-  INPUT:
-  9 8 
-  0 1 
-  0 6 
-  1 2 
-  2 7 
-  3 6 
-  4 7 
-  4 8 
-  5 8 
-
-  EXPECTED OUTPUT:
-  0 2 3 4 5 
-  1 6 7 8 
-    */
     test_bipartite(fptr);
-    /*
-    [2p] Un curier trebuie să livreze pachete în n orașe. Orașele sunt codificate prin numere de la 0 la n-1.
-    Se cunosc m străzi bidirecționale, legături între orașe. Se citesc numarul de teste,
-    apoi pentru fiecare test n, m și cele m străzi bidirecționale.
-    Sediul curieratului se află în orașul 0. Determinați toate rutele pe care curierul
-    le poate urma astfel încât acesta să efectueze toate livrările și să se întoarcă la sediu,
-    astfel încât el va trece prin fiecare oras o singură data.
-    INPUT:
-    5 7 
-    0 1 
-    1 2 
-    0 3 
-    1 3 
-    1 4 
-    2 4 
-    3 4
-    OUTPUT EXPECTED: 0 1 2 4 3 0 
-    */
 
     test_hamilton(fptr);
-
 
     fclose(fptr);
     return 0;

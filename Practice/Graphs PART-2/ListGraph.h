@@ -9,23 +9,17 @@ typedef struct
 	int nodes;                 /* Numarul de noduri din graf. */
 } list_graph_t;
 
-list_graph_t*
-lg_create(int nodes);
+list_graph_t* lg_create(int nodes);
 
-void
-lg_add_edge(list_graph_t* graph, int src, int dest);
+void lg_add_edge(list_graph_t* graph, int src, int dest);
 
-int
-lg_has_edge(list_graph_t* graph, int src, int dest);
+int lg_has_edge(list_graph_t* graph, int src, int dest);
 
-linked_list_t*
-lg_get_neighbours(list_graph_t* graph, int node);
+linked_list_t* lg_get_neighbours(list_graph_t* graph, int node);
 
-void
-lg_remove_edge(list_graph_t* graph, int src, int dest);
+void lg_remove_edge(list_graph_t* graph, int src, int dest);
 
-void
-lg_free(list_graph_t* graph);
+void lg_free(list_graph_t* graph);
 
 // Print adjacent list
 void print_lg(list_graph_t * my_list_graph);
