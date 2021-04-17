@@ -9,8 +9,9 @@ int main(void)
     person_t Alex = {
         .name = "Alex",
         .age = 28,
-    };
         .next = NULL
+    };
+        
     person_t Claudiu = {
         .name = "Claudiu",
         .age = 19,

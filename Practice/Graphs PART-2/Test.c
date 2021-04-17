@@ -289,7 +289,6 @@ test_topo_sort(FILE * fptr) {
         lg_add_edge(lg, x, y);
     }
 
-    print_lg(lg);
     sorted = topo_sort(lg, visited);
 
     printf("Topologically sorted nodes:\n");
@@ -464,7 +463,7 @@ void test_hamilton(FILE * fptr) {
             }
         }
     }
-    // print_lg(my_graph);
+    
     linked_list_t * lant = NULL;
     lant = ll_create(sizeof(int));
     int start = 0;
