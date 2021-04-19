@@ -3,6 +3,7 @@
 #include <string.h>
 #include <time.h>
 
+// Binary tree structure
 typedef struct binary_tree
 {
 	void * data;
