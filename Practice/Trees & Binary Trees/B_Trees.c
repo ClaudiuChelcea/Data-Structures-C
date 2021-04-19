@@ -67,34 +67,6 @@ void create_hierarchy(struct binary_tree* my_tree)
 	*/
 }
 
-// Insert node in balanced tree
-void insert_balanced_node(struct binary_tree **my_tree, void* data)
-{
-	if(*my_tree == NULL || (*my_tree)->data == NULL) {
-		*my_tree = create_node(data,sizeof(int));
-		return;
-	}
-	
-	// Find the position to insert to
-	if(*((int*)(data)) < *((int*)((*my_tree)->data)))
-		insert_balanced_node(&((*my_tree)->left),data);
-	else
-		insert_balanced_node(&((*my_tree)->right),data);
-}
-
-// Create hierarchy
-void create_hierarchy_balanced(struct binary_tree* my_tree)
-{
-	srand(time(0));
-
-	// Add 7 random elements
-	for(int i=0;i<7;i++) {
-
-		int value = rand()%15;
-		insert_balanced_node(&my_tree,&value);
-	}	
-}
-
 // Print the tree
 void print_tree(struct binary_tree* my_tree)
 {
@@ -144,13 +116,4 @@ int main(void)
 	// Free memory
 	clean_tree(my_tree);
 	my_tree = NULL;
-
-	// Create balanced tree
-	my_tree = initialise_tree();
-
-	// Populate the tree
-	create_hierarchy_balanced(my_tree);
-
-	// Print tree
-	print_tree(my_tree);
 }
