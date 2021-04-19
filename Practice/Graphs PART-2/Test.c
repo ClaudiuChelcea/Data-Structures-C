@@ -187,18 +187,20 @@ check_bipartite(list_graph_t * lg, int * level) {
         level[i] = 0;
         visited[i] = 0;
     }
-
+    
+    // Add first item to queue
     queue_t * my_queue = q_create(sizeof(int), lg -> nodes);
     int starting_node = 0;
     level[starting_node] = 2;
     q_enqueue(my_queue, & starting_node);
     visited[starting_node] = 1;
 
+    // Repeat until we verified all elements
     while (!q_is_empty(my_queue)) {
         int v = * ((int * )(q_front(my_queue)));
         q_dequeue(my_queue);
 
-        // Luam vecinii
+        // Get the neighbors
         linked_list_t * mylist = ll_create(sizeof(int));
         ll_node_t * mynode = lg -> neighbors[v] -> head;
         for (int i = 0; i < (int) lg -> neighbors[v] -> size; i++) {
@@ -206,11 +208,15 @@ check_bipartite(list_graph_t * lg, int * level) {
             mynode = mynode -> next;
         }
 
-        // Parcurgem vecinii
+        // Traverse neighbors
         mynode = mylist -> head;
         for (int i = 0; i < (int) mylist -> size; i++) {
             int data = * ((int * )(mynode -> data));
+            // If the node is unvisited, check it, otherwise, skip it
             if (visited[data] == 0) {
+                // If if it unvisited, it has to be also undefined
+                // to not have a level
+                // If it's level is undefined, set it's level different from the parent
                 if (level[data] == 0) {
                     if (level[v] == 2)
                         level[data] = 1;
@@ -218,6 +224,8 @@ check_bipartite(list_graph_t * lg, int * level) {
                         level[data] = 2;
                     q_enqueue(my_queue, & data);
                     visited[data] = 1;
+                // Else, if it is defined, if level[node] == level[parent]
+                // the graph is not bipartite
                 } else {
                     return 0;
                 }
