@@ -35,6 +35,7 @@ struct Queue * init_queue()
     }
     new_queue -> head = NULL;
     new_queue -> tail = NULL;
+    return new_queue;
 }
 
 // Add item to the queue
